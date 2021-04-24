@@ -33,6 +33,7 @@ defmodule ExpenseJar.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:bcrypt_elixir, "~> 2.0"},
       {:phoenix, "~> 1.5.8"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
@@ -49,6 +50,7 @@ defmodule ExpenseJar.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:ueberauth, "~> 0.6"},
       {:ueberauth_github, "~> 0.7"},
+      {:phx_gen_auth, "~> 0.7", only: [:dev], runtime: false},
     ]
   end
 
