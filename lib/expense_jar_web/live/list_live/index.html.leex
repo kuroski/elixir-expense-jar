@@ -1,0 +1,33 @@
+<h1>Listing Lists</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, ExpenseJarWeb.ListLive.FormComponent,
+    id: @list.id || :new,
+    title: @page_title,
+    action: @live_action,
+    list: @list,
+    return_to: Routes.list_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="lists">
+    <%= for list <- @lists do %>
+      <tr id="list-<%= list.id %>">
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.list_show_path(@socket, :show, list) %></span>
+          <span><%= live_patch "Edit", to: Routes.list_index_path(@socket, :edit, list) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: list.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New List", to: Routes.list_index_path(@socket, :new) %></span>

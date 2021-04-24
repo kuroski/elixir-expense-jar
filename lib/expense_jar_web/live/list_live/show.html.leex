@@ -1,0 +1,17 @@
+<h1>Show List</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, ExpenseJarWeb.ListLive.FormComponent,
+    id: @list.id,
+    title: @page_title,
+    action: @live_action,
+    list: @list,
+    return_to: Routes.list_show_path(@socket, :show, @list) %>
+<% end %>
+
+<ul>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.list_show_path(@socket, :edit, @list), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.list_index_path(@socket, :index) %></span>
