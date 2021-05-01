@@ -8,6 +8,8 @@ defmodule ExpenseJar.Accounts.User do
     field :password, :string, virtual: true
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
+    has_many :lists, ExpenseJar.Jar.List, foreign_key: :created_by
+    has_many :subscriptions, ExpenseJar.Jar.Subscription, foreign_key: :created_by
 
     timestamps()
   end
