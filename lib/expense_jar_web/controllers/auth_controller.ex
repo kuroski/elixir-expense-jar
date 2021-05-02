@@ -3,13 +3,9 @@ defmodule ExpenseJarWeb.AuthController do
   plug Ueberauth
 
   alias Ueberauth.Strategy.Helpers
-  alias ExpenseJar.UserFromAuth
+  alias ExpenseJar.Accounts
 
   require Logger
-
-  def request(conn, _params) do
-    render(conn, "request.html", callback_url: Helpers.callback_url(conn))
-  end
 
   def delete(conn, _params) do
     conn
@@ -26,18 +22,20 @@ defmodule ExpenseJarWeb.AuthController do
   end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
-    case UserFromAuth.find_or_create(auth) do
+    case Accounts.upsert_user(auth) do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Successfully authenticated.")
-        |> put_session(:current_user, user)
+        |> put_session(:user_id, user.id)
+        |> put_session(:token, auth.credentials.token)
         |> configure_session(renew: true)
         |> redirect(to: "/")
 
       {:error, reason} ->
         conn
         |> put_flash(:error, reason)
-        |> redirect(to: "/")
+        |> assign(:ueberauth_failure, nil)
+        |> callback(%{})
     end
   end
 end
