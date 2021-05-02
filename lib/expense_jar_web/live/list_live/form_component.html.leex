@@ -4,7 +4,7 @@
   id: "list-form",
   phx_target: @myself,
   phx_change: "validate",
-  phx_submit: "save" %>
+  phx_submit: :save %>
 
   <%= submit "Save", phx_disable_with: "Saving..." %>
 </form>

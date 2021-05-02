@@ -42,16 +42,17 @@ defmodule ExpenseJar.Jar do
 
   ## Examples
 
-      iex> create_list(%{field: value})
+      iex> create_list(%ExpenseJar.Accounts.User{}, %{field: value})
       {:ok, %List{}}
 
-      iex> create_list(%{field: bad_value})
+      iex> create_list(%ExpenseJar.Accounts.User{}, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_list(attrs \\ %{}) do
+  def create_list(%ExpenseJar.Accounts.User{} = user, attrs \\ %{}) do
     %List{}
     |> List.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
   end
 

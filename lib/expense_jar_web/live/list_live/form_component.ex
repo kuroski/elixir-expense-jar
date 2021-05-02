@@ -4,7 +4,7 @@ defmodule ExpenseJarWeb.ListLive.FormComponent do
   alias ExpenseJar.Jar
 
   @impl true
-  def update(%{list: list} = assigns, socket) do
+  def update(%{list: list, current_user: _current_user} = assigns, socket) do
     changeset = Jar.change_list(list)
 
     {:ok,
@@ -14,34 +14,21 @@ defmodule ExpenseJarWeb.ListLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", %{"list" => list_params}, socket) do
+  def handle_event("validate", _params, socket) do
     changeset =
       socket.assigns.list
-      |> Jar.change_list(list_params)
+      |> Jar.change_list()
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-  def handle_event("save", %{"list" => list_params}, socket) do
-    save_list(socket, socket.assigns.action, list_params)
+  def handle_event("save", _params, socket) do
+    save_list(socket, socket.assigns.action)
   end
 
-  defp save_list(socket, :edit, list_params) do
-    case Jar.update_list(socket.assigns.list, list_params) do
-      {:ok, _list} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "List updated successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, :changeset, changeset)}
-    end
-  end
-
-  defp save_list(socket, :new, list_params) do
-    case Jar.create_list(list_params) do
+  defp save_list(socket, :new) do
+    case Jar.create_list(socket.assigns.current_user, %{}) do
       {:ok, _list} ->
         {:noreply,
          socket
