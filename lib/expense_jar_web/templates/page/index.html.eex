@@ -10,12 +10,12 @@
     <div>
       <img src="<%= @current_user.avatar_url %>" />
     </div>
-    <%= link "Logout", to: Routes.auth_path(@conn, :delete), method: "delete", class: "button" %>
+    <%= link "Logout", to: Routes.user_auth_path(@conn, :logout_user), method: "delete", class: "button" %>
     <br>
   <% else %>
     <ul style="list-style: none">
       <li>
-        <a class="button" href="<%= Routes.auth_path(@conn, :request, "github") %>">
+        <a class="button" href="<%= Routes.user_auth_path(@conn, :request, "github") %>">
           <i class="fa fa-github"></i>
           Sign in with GitHub
         </a>

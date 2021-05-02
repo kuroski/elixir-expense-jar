@@ -1,7 +1,7 @@
 defmodule ExpenseJarWeb.Router do
   use ExpenseJarWeb, :router
 
-  alias ExpenseJarWeb.Plugs
+  import ExpenseJarWeb.UserAuth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -10,24 +10,20 @@ defmodule ExpenseJarWeb.Router do
     plug :put_root_layout, {ExpenseJarWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug Plugs.CurrentUser
+    plug :fetch_current_user
   end
 
   pipeline :api do
     plug :accepts, ["json"]
   end
 
-  pipeline :require_authenticated_user do
-    plug Plugs.RequireLogin
-  end
-
   scope "/auth", ExpenseJarWeb do
     pipe_through :browser
 
-    get "/:provider", AuthController, :request
-    get "/:provider/callback", AuthController, :callback
-    post "/:provider/callback", AuthController, :callback
-    delete "/logout", AuthController, :delete
+    get "/:provider", UserAuth, :request
+    get "/:provider/callback", UserAuth, :callback
+    post "/:provider/callback", UserAuth, :callback
+    delete "/logout", UserAuth, :logout_user
   end
 
   scope "/", ExpenseJarWeb do
