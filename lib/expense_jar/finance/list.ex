@@ -3,6 +3,7 @@ defmodule ExpenseJar.Finance.List do
   import Ecto.Changeset
 
   schema "lists" do
+    field :name, :string
     belongs_to :user, ExpenseJar.Accounts.User, foreign_key: :created_by
     has_many :subscriptions, ExpenseJar.Finance.Subscription
 
@@ -12,7 +13,7 @@ defmodule ExpenseJar.Finance.List do
   @doc false
   def changeset(list, attrs) do
     list
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:name])
+    |> validate_required([:name])
   end
 end

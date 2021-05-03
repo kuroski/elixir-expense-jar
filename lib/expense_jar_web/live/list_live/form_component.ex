@@ -23,12 +23,25 @@ defmodule ExpenseJarWeb.ListLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-  def handle_event("save", _params, socket) do
-    save_list(socket, socket.assigns.action)
+  def handle_event("save", %{"list" => list_params}, socket) do
+    save_list(socket, socket.assigns.action, list_params)
   end
 
-  defp save_list(socket, :new) do
-    case Finance.create_list(socket.assigns.current_user, %{}) do
+  defp save_list(socket, :edit, list_params) do
+    case Finance.update_list(socket.assigns.list, list_params) do
+      {:ok, _list} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "List updated successfully")
+         |> push_redirect(to: socket.assigns.return_to)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :changeset, changeset)}
+    end
+  end
+
+  defp save_list(socket, :new, list_params) do
+    case Finance.create_list(socket.assigns.current_user, list_params) do
       {:ok, _list} ->
         {:noreply,
          socket
