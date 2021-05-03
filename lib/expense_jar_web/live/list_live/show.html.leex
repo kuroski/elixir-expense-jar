@@ -10,7 +10,10 @@
 <% end %>
 
 <ul>
-
+  <li>
+    <strong>Name:</strong>
+    <%= @list.name %>
+  </li>
 </ul>
 
 <span><%= live_patch "Edit", to: Routes.list_show_path(@socket, :edit, @list), class: "button" %></span>
