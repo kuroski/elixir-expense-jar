@@ -5,12 +5,11 @@ defmodule ExpenseJarWeb.ListLive.Index do
   alias ExpenseJar.Finance.List
 
   @impl true
-  def mount(_params, %{"user_token" => token}, socket) do
+  def mount(_params, session, socket) do
     {
       :ok,
-      socket
+      assign_defaults(session, socket)
       |> assign(:lists, list_lists())
-      |> assign(current_user: ExpenseJar.Accounts.get_user_by_session_token(token))
     }
   end
 
