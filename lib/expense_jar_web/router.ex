@@ -30,7 +30,6 @@ defmodule ExpenseJarWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    live "/live", PageLive, :index
   end
 
   scope "/", ExpenseJarWeb do
