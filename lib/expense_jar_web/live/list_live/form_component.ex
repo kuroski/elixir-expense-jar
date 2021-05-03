@@ -4,7 +4,7 @@ defmodule ExpenseJarWeb.ListLive.FormComponent do
   alias ExpenseJar.Finance
 
   @impl true
-  def update(%{list: list, current_user: _current_user} = assigns, socket) do
+  def update(%{list: list} = assigns, socket) do
     changeset = Finance.change_list(list)
 
     {:ok,
