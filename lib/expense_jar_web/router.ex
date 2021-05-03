@@ -46,12 +46,12 @@ defmodule ExpenseJarWeb.Router do
     live "/lists/:id", ListLive.Show, :show
     live "/lists/:id/show/edit", ListLive.Show, :edit
 
-    live "/subscriptions", SubscriptionLive.Index, :index
-    live "/subscriptions/new", SubscriptionLive.Index, :new
-    live "/subscriptions/:id/edit", SubscriptionLive.Index, :edit
+    live "/lists/:list_id/subscriptions", SubscriptionLive.Index, :index
+    live "/lists/:list_id/subscriptions/new", SubscriptionLive.Index, :new
+    live "/lists/:list_id/subscriptions/:id/edit", SubscriptionLive.Index, :edit
 
-    live "/subscriptions/:id", SubscriptionLive.Show, :show
-    live "/subscriptions/:id/show/edit", SubscriptionLive.Show, :edit
+    live "/lists/:list_id/subscriptions/:id", SubscriptionLive.Show, :show
+    live "/lists/:list_id/subscriptions/:id/show/edit", SubscriptionLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

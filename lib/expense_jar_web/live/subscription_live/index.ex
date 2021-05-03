@@ -5,8 +5,12 @@ defmodule ExpenseJarWeb.SubscriptionLive.Index do
   alias ExpenseJar.Finance.Subscription
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :subscriptions, list_subscriptions())}
+  def mount(_params, session, socket) do
+    {
+      :ok,
+      assign_defaults(session, socket)
+      |> assign(:subscriptions, list_subscriptions())
+    }
   end
 
   @impl true
@@ -14,22 +18,25 @@ defmodule ExpenseJarWeb.SubscriptionLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
+  defp apply_action(socket, :edit, %{"list_id" => list_id, "id" => id}) do
     socket
     |> assign(:page_title, "Edit Subscription")
     |> assign(:subscription, Finance.get_subscription!(id))
+    |> assign(:list_id, list_id)
   end
 
-  defp apply_action(socket, :new, _params) do
+  defp apply_action(socket, :new, %{"list_id" => list_id}) do
     socket
     |> assign(:page_title, "New Subscription")
     |> assign(:subscription, %Subscription{})
+    |> assign(:list_id, list_id)
   end
 
-  defp apply_action(socket, :index, _params) do
+  defp apply_action(socket, :index, %{"list_id" => list_id}) do
     socket
     |> assign(:page_title, "Listing Subscriptions")
     |> assign(:subscription, nil)
+    |> assign(:list_id, list_id)
   end
 
   @impl true

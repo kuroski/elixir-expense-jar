@@ -6,7 +6,7 @@
     title: @page_title,
     action: @live_action,
     subscription: @subscription,
-    return_to: Routes.subscription_index_path(@socket, :index) %>
+    return_to: Routes.subscription_index_path(@socket, :index, @list_id) %>
 <% end %>
 
 <table>
@@ -37,8 +37,8 @@
         <td><%= subscription.overview %></td>
 
         <td>
-          <span><%= live_redirect "Show", to: Routes.subscription_show_path(@socket, :show, subscription) %></span>
-          <span><%= live_patch "Edit", to: Routes.subscription_index_path(@socket, :edit, subscription) %></span>
+          <span><%= live_redirect "Show", to: Routes.subscription_show_path(@socket, :show, @list_id, subscription) %></span>
+          <span><%= live_patch "Edit", to: Routes.subscription_index_path(@socket, :edit, @list_id, subscription) %></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: subscription.id, data: [confirm: "Are you sure?"] %></span>
         </td>
       </tr>
@@ -46,4 +46,4 @@
   </tbody>
 </table>
 
-<span><%= live_patch "New Subscription", to: Routes.subscription_index_path(@socket, :new) %></span>
+<span><%= live_patch "New Subscription", to: Routes.subscription_index_path(@socket, :new, @list_id) %></span>
