@@ -1,7 +1,7 @@
 defmodule ExpenseJarWeb.SubscriptionLive.Show do
   use ExpenseJarWeb, :live_view
 
-  alias ExpenseJar.Jar
+  alias ExpenseJar.Finance
 
   @impl true
   def mount(_params, _session, socket) do
@@ -13,7 +13,7 @@ defmodule ExpenseJarWeb.SubscriptionLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:subscription, Jar.get_subscription!(id))}
+     |> assign(:subscription, Finance.get_subscription!(id))}
   end
 
   defp page_title(:show), do: "Show Subscription"

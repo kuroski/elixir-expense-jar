@@ -1,12 +1,12 @@
-defmodule ExpenseJar.Jar do
+defmodule ExpenseJar.Finance do
   @moduledoc """
-  The Jar context.
+  The Finance context.
   """
 
   import Ecto.Query, warn: false
   alias ExpenseJar.Repo
 
-  alias ExpenseJar.Jar.List
+  alias ExpenseJar.Finance.List
 
   @doc """
   Returns the list of lists.
@@ -103,7 +103,7 @@ defmodule ExpenseJar.Jar do
     List.changeset(list, attrs)
   end
 
-  alias ExpenseJar.Jar.Subscription
+  alias ExpenseJar.Finance.Subscription
 
   @doc """
   Returns the list of subscriptions.

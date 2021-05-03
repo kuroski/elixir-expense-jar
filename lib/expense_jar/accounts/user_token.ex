@@ -7,7 +7,6 @@ defmodule ExpenseJar.Accounts.UserToken do
 
   # It is very important to keep the reset password token expiry short,
   # since someone with access to the e-mail may take over the account.
-  @reset_password_validity_in_days 1
   @confirm_validity_in_days 7
   @change_email_validity_in_days 7
   @session_validity_in_days 60
@@ -93,7 +92,6 @@ defmodule ExpenseJar.Accounts.UserToken do
   end
 
   defp days_for_context("confirm"), do: @confirm_validity_in_days
-  defp days_for_context("reset_password"), do: @reset_password_validity_in_days
 
   @doc """
   Checks if the token is valid and returns its underlying lookup query.
@@ -129,7 +127,7 @@ defmodule ExpenseJar.Accounts.UserToken do
     from t in ExpenseJar.Accounts.UserToken, where: t.user_id == ^user.id
   end
 
-  def user_and_contexts_query(user, [_ | _] = contexts) do
+  def user_and_contexts_query(user, [_] = contexts) do
     from t in ExpenseJar.Accounts.UserToken, where: t.user_id == ^user.id and t.context in ^contexts
   end
 end

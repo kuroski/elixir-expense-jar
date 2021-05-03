@@ -3,14 +3,14 @@ defmodule ExpenseJarWeb.ListLiveTest do
 
   import Phoenix.LiveViewTest
 
-  alias ExpenseJar.Jar
+  alias ExpenseJar.Finance
 
   @create_attrs %{}
   @update_attrs %{}
   @invalid_attrs %{}
 
   defp fixture(:list) do
-    {:ok, list} = Jar.create_list(@create_attrs)
+    {:ok, list} = Finance.create_list(@create_attrs)
     list
   end
 

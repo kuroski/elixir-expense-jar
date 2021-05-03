@@ -1,4 +1,4 @@
-defmodule ExpenseJar.Jar.Subscription do
+defmodule ExpenseJar.Finance.Subscription do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -12,7 +12,7 @@ defmodule ExpenseJar.Jar.Subscription do
     field :overview, :string
     field :price, :decimal
 
-    belongs_to :list, ExpenseJar.Jar.List
+    belongs_to :list, ExpenseJar.Finance.List
     belongs_to :users, ExpenseJar.Accounts.User, foreign_key: :created_by
 
     timestamps()

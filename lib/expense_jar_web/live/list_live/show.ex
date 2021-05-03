@@ -1,7 +1,7 @@
 defmodule ExpenseJarWeb.ListLive.Show do
   use ExpenseJarWeb, :live_view
 
-  alias ExpenseJar.Jar
+  alias ExpenseJar.Finance
 
   @impl true
   def mount(_params, _session, socket) do
@@ -13,7 +13,7 @@ defmodule ExpenseJarWeb.ListLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:list, Jar.get_list!(id))}
+     |> assign(:list, Finance.get_list!(id))}
   end
 
   defp page_title(:show), do: "Show List"

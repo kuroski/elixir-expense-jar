@@ -1,11 +1,11 @@
 defmodule ExpenseJarWeb.ListLive.FormComponent do
   use ExpenseJarWeb, :live_component
 
-  alias ExpenseJar.Jar
+  alias ExpenseJar.Finance
 
   @impl true
   def update(%{list: list, current_user: _current_user} = assigns, socket) do
-    changeset = Jar.change_list(list)
+    changeset = Finance.change_list(list)
 
     {:ok,
      socket
@@ -17,7 +17,7 @@ defmodule ExpenseJarWeb.ListLive.FormComponent do
   def handle_event("validate", _params, socket) do
     changeset =
       socket.assigns.list
-      |> Jar.change_list()
+      |> Finance.change_list()
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -28,7 +28,7 @@ defmodule ExpenseJarWeb.ListLive.FormComponent do
   end
 
   defp save_list(socket, :new) do
-    case Jar.create_list(socket.assigns.current_user, %{}) do
+    case Finance.create_list(socket.assigns.current_user, %{}) do
       {:ok, _list} ->
         {:noreply,
          socket

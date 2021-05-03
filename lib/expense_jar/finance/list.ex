@@ -1,10 +1,10 @@
-defmodule ExpenseJar.Jar.List do
+defmodule ExpenseJar.Finance.List do
   use Ecto.Schema
   import Ecto.Changeset
 
   schema "lists" do
     belongs_to :user, ExpenseJar.Accounts.User, foreign_key: :created_by
-    has_many :subscriptions, ExpenseJar.Jar.Subscription
+    has_many :subscriptions, ExpenseJar.Finance.Subscription
 
     timestamps()
   end

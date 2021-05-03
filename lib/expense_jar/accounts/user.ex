@@ -11,8 +11,8 @@ defmodule ExpenseJar.Accounts.User do
     field :uid, :string
     field :username, :string
 
-    has_many :lists, ExpenseJar.Jar.List, foreign_key: :created_by
-    has_many :subscriptions, ExpenseJar.Jar.Subscription, foreign_key: :created_by
+    has_many :lists, ExpenseJar.Finance.List, foreign_key: :created_by
+    has_many :subscriptions, ExpenseJar.Finance.Subscription, foreign_key: :created_by
     timestamps()
   end
 

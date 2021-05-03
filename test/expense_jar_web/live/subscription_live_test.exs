@@ -3,14 +3,14 @@ defmodule ExpenseJarWeb.SubscriptionLiveTest do
 
   import Phoenix.LiveViewTest
 
-  alias ExpenseJar.Jar
+  alias ExpenseJar.Finance
 
   @create_attrs %{color: "some color", cycle_amount: 42, cycle_period: "some cycle_period", first_bill: ~D[2010-04-17], icon: "some icon", name: "some name", overview: "some overview", price: "120.5"}
   @update_attrs %{color: "some updated color", cycle_amount: 43, cycle_period: "some updated cycle_period", first_bill: ~D[2011-05-18], icon: "some updated icon", name: "some updated name", overview: "some updated overview", price: "456.7"}
   @invalid_attrs %{color: nil, cycle_amount: nil, cycle_period: nil, first_bill: nil, icon: nil, name: nil, overview: nil, price: nil}
 
   defp fixture(:subscription) do
-    {:ok, subscription} = Jar.create_subscription(@create_attrs)
+    {:ok, subscription} = Finance.create_subscription(@create_attrs)
     subscription
   end
 

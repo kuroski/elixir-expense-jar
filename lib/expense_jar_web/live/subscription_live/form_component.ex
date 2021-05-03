@@ -1,11 +1,11 @@
 defmodule ExpenseJarWeb.SubscriptionLive.FormComponent do
   use ExpenseJarWeb, :live_component
 
-  alias ExpenseJar.Jar
+  alias ExpenseJar.Finance
 
   @impl true
   def update(%{subscription: subscription} = assigns, socket) do
-    changeset = Jar.change_subscription(subscription)
+    changeset = Finance.change_subscription(subscription)
 
     {:ok,
      socket
@@ -17,7 +17,7 @@ defmodule ExpenseJarWeb.SubscriptionLive.FormComponent do
   def handle_event("validate", %{"subscription" => subscription_params}, socket) do
     changeset =
       socket.assigns.subscription
-      |> Jar.change_subscription(subscription_params)
+      |> Finance.change_subscription(subscription_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -28,7 +28,7 @@ defmodule ExpenseJarWeb.SubscriptionLive.FormComponent do
   end
 
   defp save_subscription(socket, :edit, subscription_params) do
-    case Jar.update_subscription(socket.assigns.subscription, subscription_params) do
+    case Finance.update_subscription(socket.assigns.subscription, subscription_params) do
       {:ok, _subscription} ->
         {:noreply,
          socket
@@ -41,7 +41,7 @@ defmodule ExpenseJarWeb.SubscriptionLive.FormComponent do
   end
 
   defp save_subscription(socket, :new, subscription_params) do
-    case Jar.create_subscription(subscription_params) do
+    case Finance.create_subscription(subscription_params) do
       {:ok, _subscription} ->
         {:noreply,
          socket

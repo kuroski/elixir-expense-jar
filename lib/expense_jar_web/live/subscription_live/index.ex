@@ -1,8 +1,8 @@
 defmodule ExpenseJarWeb.SubscriptionLive.Index do
   use ExpenseJarWeb, :live_view
 
-  alias ExpenseJar.Jar
-  alias ExpenseJar.Jar.Subscription
+  alias ExpenseJar.Finance
+  alias ExpenseJar.Finance.Subscription
 
   @impl true
   def mount(_params, _session, socket) do
@@ -17,7 +17,7 @@ defmodule ExpenseJarWeb.SubscriptionLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Subscription")
-    |> assign(:subscription, Jar.get_subscription!(id))
+    |> assign(:subscription, Finance.get_subscription!(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -34,13 +34,13 @@ defmodule ExpenseJarWeb.SubscriptionLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    subscription = Jar.get_subscription!(id)
-    {:ok, _} = Jar.delete_subscription(subscription)
+    subscription = Finance.get_subscription!(id)
+    {:ok, _} = Finance.delete_subscription(subscription)
 
     {:noreply, assign(socket, :subscriptions, list_subscriptions())}
   end
 
   defp list_subscriptions do
-    Jar.list_subscriptions()
+    Finance.list_subscriptions()
   end
 end
