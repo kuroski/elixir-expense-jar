@@ -10,6 +10,7 @@ defmodule ExpenseJarWeb.SubscriptionLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
+     |> assign(:periods, ExpenseJar.Finance.Subscription.periods())
      |> assign(:changeset, changeset)}
   end
 

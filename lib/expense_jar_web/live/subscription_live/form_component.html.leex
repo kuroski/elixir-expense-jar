@@ -15,7 +15,7 @@
   <%= error_tag f, :cycle_amount %>
 
   <%= label f, :cycle_period %>
-  <%= text_input f, :cycle_period %>
+  <%= select f, :cycle_period, @periods %>
   <%= error_tag f, :cycle_period %>
 
   <%= label f, :first_bill %>
