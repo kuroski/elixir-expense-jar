@@ -6,6 +6,8 @@
     title: @page_title,
     action: @live_action,
     subscription: @subscription,
+    list: @list,
+    current_user: @current_user,
     return_to: Routes.subscription_index_path(@socket, :index, @list_id) %>
 <% end %>
 

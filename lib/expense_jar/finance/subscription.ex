@@ -13,7 +13,7 @@ defmodule ExpenseJar.Finance.Subscription do
     field :price, :decimal
 
     belongs_to :list, ExpenseJar.Finance.List
-    belongs_to :users, ExpenseJar.Accounts.User, foreign_key: :created_by
+    belongs_to :user, ExpenseJar.Accounts.User, foreign_key: :created_by
 
     timestamps()
   end

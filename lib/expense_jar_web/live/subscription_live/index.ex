@@ -5,10 +5,12 @@ defmodule ExpenseJarWeb.SubscriptionLive.Index do
   alias ExpenseJar.Finance.Subscription
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(%{"list_id" => list_id}, session, socket) do
     {
       :ok,
       assign_defaults(session, socket)
+      |>
+        assign_new(:list, fn -> ExpenseJar.Finance.get_list(list_id) end)
       |> assign(:subscriptions, list_subscriptions())
     }
   end

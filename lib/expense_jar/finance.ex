@@ -38,6 +38,21 @@ defmodule ExpenseJar.Finance do
   def get_list!(id), do: Repo.get!(List, id)
 
   @doc """
+  Gets a single list.
+
+  Returns nil if the List does not exist.
+
+  ## Examples
+
+      iex> get_list(123)
+      %List{}
+
+      iex> get_list(-1)
+      nil
+  """
+  def get_list(id), do: Repo.get(List, id)
+
+  @doc """
   Creates a list.
 
   ## Examples
@@ -139,16 +154,21 @@ defmodule ExpenseJar.Finance do
 
   ## Examples
 
-      iex> create_subscription(%{field: value})
+      iex> create_subscription(%{user: %ExpenseJar.Accounts.User{}, list: %ExpenseJar.Finance.List{}}, %{field: value})
       {:ok, %Subscription{}}
 
-      iex> create_subscription(%{field: bad_value})
+      iex> create_subscription(%{user: %ExpenseJar.Accounts.User{}, list: %ExpenseJar.Finance.List{}}, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_subscription(attrs \\ %{}) do
+  def create_subscription(
+        %{user: %ExpenseJar.Accounts.User{}, list: %ExpenseJar.Finance.List{}} = params,
+        attrs \\ %{}
+      ) do
     %Subscription{}
     |> Subscription.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:user, params.user)
+    |> Ecto.Changeset.put_assoc(:list, params.list)
     |> Repo.insert()
   end
 

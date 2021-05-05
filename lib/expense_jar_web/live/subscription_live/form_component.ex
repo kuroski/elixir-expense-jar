@@ -4,7 +4,7 @@ defmodule ExpenseJarWeb.SubscriptionLive.FormComponent do
   alias ExpenseJar.Finance
 
   @impl true
-  def update(%{subscription: subscription} = assigns, socket) do
+  def update(%{subscription: subscription, list: _list} = assigns, socket) do
     changeset = Finance.change_subscription(subscription)
 
     {:ok,
@@ -41,7 +41,7 @@ defmodule ExpenseJarWeb.SubscriptionLive.FormComponent do
   end
 
   defp save_subscription(socket, :new, subscription_params) do
-    case Finance.create_subscription(subscription_params) do
+    case Finance.create_subscription(%{user: socket.assigns.current_user, list: socket.assigns.list}, subscription_params) do
       {:ok, _subscription} ->
         {:noreply,
          socket
