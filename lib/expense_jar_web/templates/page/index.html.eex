@@ -1,10 +1,7 @@
-<section class="flex-1 flex flex-col items-center justify-center">
-  <img src="<%= Routes.static_path(@conn, "/images/expense-jar-logo.png") %>" alt="ExpenseJar logo" class="object-contain h-48 w-full rounded-full" />
-  <p>
-    This is an application to show an example of how to wire up
-    <a href="https://github.com/ueberauth/ueberauth">Überauth</a> with
-    <a href="https://github.com/phoenixframework/phoenix">Phoenix</a>.
-  </p>
+<section x-data="{ isLoading: false }" class="flex-1 flex flex-col items-center justify-center">
+
+  <img src="<%= Routes.static_path(@conn, "/images/expense-jar-logo.png") %>" alt="ExpenseJar logo" class="not-sr-only mb-4 object-contain h-36 bg-blue-500 rounded-3xl p-2 w-auto shadow-inner" />
+
   <%= if @current_user do %>
     <h2>Welcome, <%= @current_user.name %>!</h2>
     <div>
@@ -13,13 +10,10 @@
     <%= link "Logout", to: Routes.user_auth_path(@conn, :logout_user), method: "delete", class: "button" %>
     <br>
   <% else %>
-    <ul style="list-style: none">
-      <li>
-        <a class="button" href="<%= Routes.user_auth_path(@conn, :request, "github") %>">
-          <i class="fa fa-github"></i>
-          Sign in with GitHub
-        </a>
-      </li>
-    </ul>
+    <a @click="isLoading = true" :class="{ 'opacity-50 cursor-not-allowed': isLoading }" class="flex items-center py-2 px-4 bg-gray-900 border border-gray-500 hover:border-gray-400 rounded-lg hover:pulse transform duration-300 hover:scale-105 transition-transform" href="<%= Routes.user_auth_path(@conn, :request, "github") %>">
+      <span x-show="!isLoading" class="material-icons mr-1">lock</span>
+      <span x-show="isLoading" class="material-icons mr-1 animate-spin">refresh</span>
+      Sign in with GitHub
+    </a>
   <% end %>
 </section>

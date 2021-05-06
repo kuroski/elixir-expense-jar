@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply dark:bg-gray-800 dark:text-white;
+}
+
 /* This file is for your main application css. */
 /* @import "./phoenix.css"; */
 
