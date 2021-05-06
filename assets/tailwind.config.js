@@ -1,10 +1,17 @@
 module.exports = {
-  purge: [
-    '../lib/**/*.ex',
-    '../lib/**/*.leex',
-    '../lib/**/*.eex',
-    './js/**/*.js'
-  ],
+  // mode: "jit",
+  purge: {
+    enabled: process.env.NODE_ENV === "production",
+    content: [
+      "../lib/**/*.ex",
+      "../lib/**/*.leex",
+      "../lib/**/*.eex",
+      "./js/**/*.js",
+    ],
+    options: {
+      whitelist: [/phx/, /nprogress/]
+    }
+  },
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
@@ -12,5 +19,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
-}
+  plugins: [require("@tailwindcss/forms")],
+};
