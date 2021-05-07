@@ -11,9 +11,11 @@
     <br>
   <% else %>
     <a @click="isLoading = true" :class="{ 'opacity-50 cursor-not-allowed': isLoading }" class="flex items-center py-2 px-4 bg-gray-900 border border-gray-500 hover:border-gray-400 rounded-lg hover:pulse transform duration-300 hover:scale-105 transition-transform" href="<%= Routes.user_auth_path(@conn, :request, "github") %>">
-      <span x-show="!isLoading" class="material-icons mr-1">lock</span>
-      <span x-show="isLoading" class="material-icons mr-1 animate-spin">refresh</span>
-      Sign in with GitHub
+      <span class="iconify text-white" data-icon="brandico:github" data-inline="false"></span>
+      <span class="ml-2 flex-1">Sign in with GitHub</span>
+      <span x-show="isLoading" x-cloak class="ml-2">
+        <%= render ExpenseJarWeb.SharedView, "loading.html" %>
+      </span>
     </a>
   <% end %>
 </section>
