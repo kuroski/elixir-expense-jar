@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 body {
-  @apply dark:bg-gray-800 dark:text-white;
+  @apply bg-gradient-to-b from-blue-400 to-blue-500 dark:text-white opacity-0 container mx-auto py-4 min-h-screen flex flex-col animate-fade-in;
+  animation-fill-mode: forwards;
 }
 
 /* This file is for your main application css. */
@@ -65,32 +66,29 @@ body {
 
 /* Alerts and form errors */
 .alert {
-  padding: 15px;
-  margin-bottom: 20px;
-  border: 1px solid transparent;
-  border-radius: 4px;
+  @apply py-3 px-2 mb-4 rounded-lg flex items-center shadow cursor-pointer;
 }
+
+.alert > .iconify {
+  @apply mr-2 text-lg h-6 w-6;
+}
+
 .alert-info {
-  color: #31708f;
-  background-color: #d9edf7;
-  border-color: #bce8f1;
+  @apply bg-blue-100 text-blue-500 border border-blue-500;
 }
+
 .alert-warning {
-  color: #8a6d3b;
-  background-color: #fcf8e3;
-  border-color: #faebcc;
+  @apply bg-yellow-100 text-yellow-500 border border-yellow-500;
 }
+
 .alert-danger {
-  color: #a94442;
-  background-color: #f2dede;
-  border-color: #ebccd1;
+  @apply bg-red-100 text-red-500 border border-red-500;
 }
-.alert p {
-  margin-bottom: 0;
+
+.alert > p {
+  @apply mb-0;
 }
-.alert:empty {
-  display: none;
-}
+
 .invalid-feedback {
   color: #a94442;
   display: block;

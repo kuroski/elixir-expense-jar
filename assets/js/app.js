@@ -18,7 +18,8 @@ import { Socket } from "phoenix";
 import topbar from "topbar";
 import { LiveSocket } from "phoenix_live_view";
 import "alpinejs";
-import '@iconify/iconify';
+import "@iconify/iconify";
+import "@hotwired/turbo";
 
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
