@@ -1,20 +1,35 @@
-<section x-data="{ isLoading: false }" class="flex-1 flex flex-col items-center justify-center">
-  <%= img_tag(
-    Routes.static_path(@conn, "/images/expense-jar-logo.png"),
-    alt: "ExpenseJar logo",
-    class: "not-sr-only mb-4 object-contain h-32 border border-blue-400 bg-blue-500 rounded-3xl p-2 w-auto shadow-xl"
-  ) %>
-  <a
-    href="<%= Routes.user_auth_path(@conn, :request, "github") %>"
-    data-turbo="false"
-    @click="isLoading = true"
-    :class="{ 'opacity-50 cursor-not-allowed': isLoading }"
-    class="flex items-center py-2 px-4 bg-blue-50 text-gray-900 border border-gray-500 hover:border-gray-400 rounded-lg hover:pulse transform duration-300 hover:scale-105 transition-transform"
-  >
-    <span class="iconify text-gray-900" data-icon="brandico:github" data-inline="false"></span>
-    <span class="ml-2 flex-1">Sign in with GitHub</span>
-  </a>
-  <span x-show="isLoading" x-cloak class="mt-2 animate-fade-in-down">
-    <%= render ExpenseJarWeb.SharedView, "loading.html" %>
-  </span>
-</section>
+<div class="flex-1 flex items-center">
+  <section x-data="{ isLoading: false }" class="p-5 flex flex-col items-center justify-center text-center w-full md:max-w-5xl">
+    <%= img_tag(
+      Routes.static_path(@conn, "/images/expense-jar-logo.png"),
+      alt: "ExpenseJar logo",
+      class: "not-sr-only mb-4 object-contain h-24 border border-blue-400 bg-blue-500 rounded-3xl p-2 w-auto shadow-xl"
+    ) %>
+    <h1 class="text-3xl leading-none font-extrabold tracking-tight text-blue-50 mb-3">Sign in to your account</h1>
+    <p class="text-md lg:text-lg leading-10 font-normal">Sign in with</p>
+    <a
+      href="<%= Routes.user_auth_path(@conn, :request, "github") %>"
+      data-turbo="false"
+      @click="isLoading = true"
+      :class="{ 'opacity-50 cursor-not-allowed': isLoading }"
+      class="flex items-center p-2 bg-blue-50 hover:bg-blue-100 text-blue-50 border border-blue-500 hover:border-blue-400 rounded-lg hover:pulse transform duration-300 hover:scale-105 transition-transform"
+    >
+      <span class="iconify text-gray-900" data-icon="brandico:github" data-inline="false"></span>
+    </a>
+    <span x-show="isLoading" x-cloak class="mt-2 animate-fade-in-down">
+      <%= render ExpenseJarWeb.SharedView, "loading.html" %>
+    </span>
+  </section>
+  <figure class="not-sr-only relative hidden lg:block max-h-screen overflow-hidden">
+    <source srcset="<%= Routes.static_path(@conn, "/images/cover-image-small.jpg") %>" media="(max-width: 599px)">
+    <source srcset="<%= Routes.static_path(@conn, "/images/cover-image.jpg") %>" media="(min-width: 600px)">
+    <%= img_tag(
+      Routes.static_path(@conn, "/images/cover-image.jpg"),
+      alt: "Cover image, Photo by Pat Whelen",
+      class: "object-contain"
+    ) %>
+    <figcaption class="text-xs text-center absolute bottom-0 right-0">
+      Photo by <a href="https://unsplash.com/@patwhelen?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Pat Whelen</a> on <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+    </figcaption>
+  </figure>
+</div>

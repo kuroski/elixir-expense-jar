@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-gradient-to-b from-blue-300 to-blue-400 dark:text-white opacity-0 container mx-auto py-4 min-h-screen flex flex-col animate-fade-in;
+  @apply dark:bg-gray-900 dark:text-white opacity-0 min-h-screen flex flex-col animate-fade-in;
   animation-fill-mode: forwards;
 }
 
@@ -66,7 +66,7 @@ body {
 
 /* Alerts and form errors */
 .alert {
-  @apply absolute top-5 left-1/2 w-full max-w-md py-3 px-2 rounded-lg flex items-center shadow cursor-pointer;
+  @apply absolute top-5 left-1/2 w-full max-w-md py-3 px-2 rounded-lg flex items-center shadow cursor-pointer z-50;
   transform: translateX(-50%);
 }
 
