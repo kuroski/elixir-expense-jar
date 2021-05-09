@@ -5,6 +5,7 @@ defmodule ExpenseJar.Finance do
 
   import Ecto.Query, warn: false
   alias ExpenseJar.Repo
+  alias ExpenseJar.Accounts.User
 
   alias ExpenseJar.Finance.List
 
@@ -17,8 +18,23 @@ defmodule ExpenseJar.Finance do
       [%List{}, ...]
 
   """
-  def list_lists do
+  def list_lists() do
     Repo.all(List)
+  end
+
+  @doc """
+  Returns the list of user lists.
+
+  ## Examples
+
+      iex> list_lists(%User{})
+      [%List{}, ...]
+
+  """
+  def list_user_lists(%User{} = user) do
+    List
+    |> where_user_query(user)
+    |> Repo.all()
   end
 
   @doc """
@@ -217,5 +233,9 @@ defmodule ExpenseJar.Finance do
   """
   def change_subscription(%Subscription{} = subscription, attrs \\ %{}) do
     Subscription.changeset(subscription, attrs)
+  end
+
+  defp where_user_query(query, %User{id: user_id}) do
+    from e in query, where: e.created_by == ^user_id
   end
 end

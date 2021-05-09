@@ -1,21 +1,20 @@
 <section x-data="{ isLoading: false }" class="flex-1 flex flex-col items-center justify-center">
-
-  <img src="<%= Routes.static_path(@conn, "/images/expense-jar-logo.png") %>" alt="ExpenseJar logo" class="not-sr-only mb-4 object-contain h-32 border border-blue-400 bg-blue-500 rounded-3xl p-2 w-auto shadow-xl" />
-
-  <%= if @current_user do %>
-    <h2>Welcome, <%= @current_user.name %>!</h2>
-    <div>
-      <img src="<%= @current_user.avatar_url %>" />
-    </div>
-    <%= link "Logout", to: Routes.user_auth_path(@conn, :logout_user), method: "delete", class: "button" %>
-    <br>
-  <% else %>
-    <a data-turbo="false" @click="isLoading = true" :class="{ 'opacity-50 cursor-not-allowed': isLoading }" class="flex items-center py-2 px-4 bg-gray-900 border border-gray-500 hover:border-gray-400 rounded-lg hover:pulse transform duration-300 hover:scale-105 transition-transform" href="<%= Routes.user_auth_path(@conn, :request, "github") %>">
-      <span class="iconify text-white" data-icon="brandico:github" data-inline="false"></span>
-      <span class="ml-2 flex-1">Sign in with GitHub</span>
-    </a>
-    <span x-show="isLoading" x-cloak class="mt-2 animate-fade-in-down">
-      <%= render ExpenseJarWeb.SharedView, "loading.html" %>
-    </span>
-  <% end %>
+  <%= img_tag(
+    Routes.static_path(@conn, "/images/expense-jar-logo.png"),
+    alt: "ExpenseJar logo",
+    class: "not-sr-only mb-4 object-contain h-32 border border-blue-400 bg-blue-500 rounded-3xl p-2 w-auto shadow-xl"
+  ) %>
+  <a
+    href="<%= Routes.user_auth_path(@conn, :request, "github") %>"
+    data-turbo="false"
+    @click="isLoading = true"
+    :class="{ 'opacity-50 cursor-not-allowed': isLoading }"
+    class="flex items-center py-2 px-4 bg-blue-50 text-gray-900 border border-gray-500 hover:border-gray-400 rounded-lg hover:pulse transform duration-300 hover:scale-105 transition-transform"
+  >
+    <span class="iconify text-gray-900" data-icon="brandico:github" data-inline="false"></span>
+    <span class="ml-2 flex-1">Sign in with GitHub</span>
+  </a>
+  <span x-show="isLoading" x-cloak class="mt-2 animate-fade-in-down">
+    <%= render ExpenseJarWeb.SharedView, "loading.html" %>
+  </span>
 </section>

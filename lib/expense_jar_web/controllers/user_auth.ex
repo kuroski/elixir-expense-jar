@@ -34,7 +34,7 @@ defmodule ExpenseJarWeb.UserAuth do
         |> put_session(:user_token, token)
         |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
         |> maybe_write_remember_me_cookie(token, params)
-        |> redirect(to: user_return_to || "/")
+        |> redirect(to: user_return_to || ExpenseJarWeb.Router.Helpers.list_path(conn, :index))
 
       {:error, reason} ->
         conn
@@ -113,6 +113,19 @@ defmodule ExpenseJarWeb.UserAuth do
       else
         {nil, conn}
       end
+    end
+  end
+
+  @doc """
+  Used for routes that require the <%= schema.singular %> to not be authenticated.
+  """
+  def redirect_if_user_is_authenticated(conn, _opts) do
+    if conn.assigns[:current_user] do
+      conn
+      |> redirect(to: ExpenseJarWeb.Router.Helpers.list_path(conn, :index))
+      |> halt()
+    else
+      conn
     end
   end
 

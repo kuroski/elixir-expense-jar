@@ -13,9 +13,18 @@
   <body>
     <header>
       <section>
-        <nav role="navigation" class="flex justify-end">
+        <nav role="navigation" class="flex justify-end items-center">
+          <%= if @current_user do %>
+            <div class="flex items-center">
+              <img class="rounded-full h-10 w-10 flex items-center justify-center" src="<%= @current_user.avatar_url %>" />
+              <%= link to: Routes.user_auth_path(@conn, :logout_user), method: "delete", alt: "Logout", class: "ml-2 p-1 border border-white hover:bg-blue-500 transition-colors text-white rounded" do %>
+                <span class="iconify" data-icon="heroicons-outline:logout" data-inline="false"></span>
+              <% end %>
+            </div>
+          <% end %>
+
           <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-            <%= link to: Routes.live_dashboard_path(@conn, :home), class: "py-1 px-2 mb-4 border border-blue-500 text-white text-sm font-semibold rounded-full shadow-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition-colors" do %>
+            <%= link to: Routes.live_dashboard_path(@conn, :home), class: "py-1 px-2 fixed bottom-5 right-2 border border-blue-500 text-white text-sm font-semibold rounded-full shadow-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition-colors" do %>
               <span class="iconify" data-icon="heroicons-outline:chart-square-bar" data-inline="false"></span>
             <% end %>
           <% end %>
