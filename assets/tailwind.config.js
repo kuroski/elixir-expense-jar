@@ -14,6 +14,16 @@ module.exports = {
   },
   darkMode: "media", // or 'media' or 'class'
   theme: {
+    container: {
+      center: true,
+      screens: {
+        sm: "640px",
+        md: "640px",
+        lg: "640px",
+        xl: "640px",
+        "2xl": "640px",
+      },
+    },
     extend: {
       keyframes: {
         "fade-in": {
