@@ -12,13 +12,24 @@
   </head>
   <body>
     <%= if @current_user do %>
-      <header>
+      <header class="mb-2 px-4 py-4 container">
         <section>
-          <nav role="navigation" class="container py-4 flex justify-end items-center">
-            <div class="flex items-center">
+          <nav role="navigation" class="flex justify-end items-center">
+            <div class="flex items-center" x-data="{ isLoading: false }">
               <img class="rounded-full h-10 w-10 flex items-center justify-center" src="<%= @current_user.avatar_url %>" />
-              <%= link to: Routes.user_auth_path(@conn, :logout_user), method: "delete", alt: "Logout", class: "ml-3 p-1 border border-white hover:bg-blue-600 transition-colors text-white rounded" do %>
-                <span class="iconify" data-icon="heroicons-outline:logout" data-inline="false"></span>
+              <%= link(
+                to: Routes.user_auth_path(@conn, :logout_user),
+                method: "delete",
+                alt: "Logout",
+                "@click": "isLoading = true",
+                ":class": "{ 'opacity-50 cursor-not-allowed': isLoading }",
+                class: "flex items-center ml-3 py-1 px-2 border border-white hover:bg-gray-800 transition-colors text-white rounded"
+              ) do %>
+                <span x-show="!isLoading" class="iconify mr-1" data-icon="heroicons-outline:logout" data-inline="false"></span>
+                <span x-show="isLoading" x-cloak class="mr-1 animate-fade-in">
+                  <%= render ExpenseJarWeb.SharedView, "loading.html" %>
+                </span>
+                <span>Logout</span>
               <% end %>
             </div>
           </nav>
