@@ -1,35 +1,9 @@
 <main role="main" class="flex-1 flex flex-col px-4">
   <%= if info = get_flash(@conn, :info) do %>
-    <p
-      class="alert alert-info"
-      role="alert"
-      x-data="{ open: true }"
-      x-init="setTimeout(() => open = false, 3000)"
-      x-show="open"
-      @click="open = false"
-      x-transition:leave="transition ease-in"
-      x-transition:leave-start="opacity-100"
-      x-transition:leave-end="opacity-0"
-      >
-      <span class="iconify" data-icon="heroicons-outline:information-circle" data-inline="false"></span>
-      <span><%= info %></span>
-    </p>
+    <%= render ExpenseJarWeb.SharedView, "alert.html", %{type: "info", title: info} %>
   <% end %>
   <%= if error = get_flash(@conn, :error) do %>
-    <p
-      class="alert alert-danger"
-      role="alert"
-      x-data="{ open: true }"
-      x-init="setTimeout(() => open = false, 3000)"
-      x-show="open"
-      @click="open = false"
-      x-transition:leave="transition ease-in"
-      x-transition:leave-start="opacity-100"
-      x-transition:leave-end="opacity-0"
-      >
-      <span class="iconify" data-icon="heroicons-outline:shield-exclamation" data-inline="false"></span>
-      <span><%= error %></span>
-    </p>
+    <%= render ExpenseJarWeb.SharedView, "alert.html", %{type: "error", title: error} %>
   <% end %>
   <%= @inner_content %>
 </main>

@@ -1,0 +1,18 @@
+<p
+  class="alert alert-<%= @type %>"
+  role="alert"
+  x-data="{ open: true }"
+  x-init="setTimeout(() => open = false, 3000)"
+  x-show="open"
+  @click="open = false"
+  x-transition:leave="transition ease-in"
+  x-transition:leave-start="opacity-100"
+  x-transition:leave-end="opacity-0"
+>
+  <%= case @type do %>
+    <% "info" -> %> <span class="iconify" data-icon="heroicons-outline:information-circle" data-inline="false"></span>
+    <% "danger" -> %> <span class="iconify" data-icon="heroicons-outline:shield-exclamation" data-inline="false"></span>
+    <% _ -> %> <span></span>
+  <% end %>
+  <span><%= @title %></span>
+</p>

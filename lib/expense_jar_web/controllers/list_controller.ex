@@ -15,8 +15,8 @@ defmodule ExpenseJarWeb.ListController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"list" => list_params}, _current_user) do
-    case Finance.create_list(list_params) do
+  def create(conn, %{"list" => list_params}, current_user) do
+    case Finance.create_list(current_user, list_params) do
       {:ok, list} ->
         conn
         |> put_flash(:info, "List created successfully.")

@@ -1,5 +1,10 @@
-<h1>New List</h1>
+
+<div class="container p-5 bg-gray-50 shadow rounded text-gray-900">
+
+<h1 class="text-xl leading-none font-extrabold tracking-tight mb-4">New List</h1>
 
 <%= render "form.html", Map.put(assigns, :action, Routes.list_path(@conn, :create)) %>
 
-<span><%= link "Back", to: Routes.list_path(@conn, :index) %></span>
+<span><%= link "Back", to: Routes.list_path(@conn, :index), class: "button button--secondary" %></span>
+
+</div>

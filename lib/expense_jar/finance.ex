@@ -19,7 +19,10 @@ defmodule ExpenseJar.Finance do
 
   """
   def list_lists() do
+    subscription_count = get_subscriptions_count()
+
     Repo.all(List)
+    |> Enum.map(&%{&1 | subscription_count: subscription_count[&1.id] || 0})
   end
 
   @doc """
@@ -32,9 +35,12 @@ defmodule ExpenseJar.Finance do
 
   """
   def list_user_lists(%User{} = user) do
+    subscription_count = get_subscriptions_count()
+
     List
     |> where_user_query(user)
     |> Repo.all()
+    |> Enum.map(&%{&1 | subscription_count: subscription_count[&1.id] || 0})
   end
 
   @doc """
@@ -237,5 +243,15 @@ defmodule ExpenseJar.Finance do
 
   defp where_user_query(query, %User{id: user_id}) do
     from e in query, where: e.created_by == ^user_id
+  end
+
+  defp get_subscriptions_count() do
+    from(l in List,
+      join: s in assoc(l, :subscriptions),
+      group_by: l.id,
+      select: {l.id, count(s.id)}
+    )
+    |> Repo.all()
+    |> Enum.into(%{})
   end
 end

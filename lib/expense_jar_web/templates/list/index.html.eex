@@ -3,34 +3,18 @@
     <h2 class="text-3xl leading-none font-extrabold tracking-tight">Lists</h2>
     <%= link "Create new List", to: Routes.list_path(@conn, :new), class: "button button--primary" %>
   </div>
-  <%= for list <- @lists do %>
-    <%= list.name %>
-  <% end %>
-</div>
 
-<table class="mt-16">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Name</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
+  <div class="flex flex-col divide-y">
     <%= for list <- @lists do %>
-      <tr>
-        <td>
-          <%= list.id %>
-        </td>
-        <td>
-          <%= list.name %>
-        </td>
-        <td>
-          <span><%= link "Show", to: Routes.list_path(@conn, :show, list) %></span>
-          <span><%= link "Edit", to: Routes.list_path(@conn, :edit, list) %></span>
-          <span><%= link "Delete", to: Routes.list_path(@conn, :delete, list), method: :delete, data: [confirm: "Are you sure?"] %></span>
-        </td>
-      </tr>
+      <div class="py-2 flex items-center justify-between">
+        <%= list.name %>
+
+        <div>
+          <%= link "Show", to: Routes.list_path(@conn, :show, list), class: "button button--link" %>
+          <%= link "Edit", to: Routes.list_path(@conn, :edit, list), class: "button button--link" %>
+          <%= link "Delete", to: Routes.list_path(@conn, :delete, list), method: :delete, data: [confirm: "Are you sure?"], class: "button button--link-danger" %>
+        </div>
+      </div>
     <% end %>
-  </tbody>
-</table>
+  </div>
+</div>

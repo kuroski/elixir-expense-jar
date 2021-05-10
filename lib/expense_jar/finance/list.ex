@@ -4,6 +4,7 @@ defmodule ExpenseJar.Finance.List do
 
   schema "lists" do
     field :name, :string
+    field :subscription_count, :integer, default: 0, virtual: true
     belongs_to :user, ExpenseJar.Accounts.User, foreign_key: :created_by
     has_many :subscriptions, ExpenseJar.Finance.Subscription
 
