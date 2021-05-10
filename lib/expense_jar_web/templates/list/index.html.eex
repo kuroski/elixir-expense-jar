@@ -1,8 +1,14 @@
-<%= for list <- @lists do %>
-  <%= list.name %>
-<% end %>
+<div class="container p-5 bg-gray-50 shadow rounded text-gray-900">
+  <div class="pb-2 mb-2 border-b flex items-center justify-between w-full">
+    <h2 class="text-3xl leading-none font-extrabold tracking-tight">Lists</h2>
+    <%= link "Create new List", to: Routes.list_path(@conn, :new), class: "button button--primary" %>
+  </div>
+  <%= for list <- @lists do %>
+    <%= list.name %>
+  <% end %>
+</div>
 
-<table>
+<table class="mt-16">
   <thead>
     <tr>
       <th>#</th>
@@ -28,4 +34,3 @@
     <% end %>
   </tbody>
 </table>
-<span><%= link "New List", to: Routes.list_path(@conn, :new) %></span>

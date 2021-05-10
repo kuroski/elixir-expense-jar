@@ -9,7 +9,6 @@
     <p class="text-md lg:text-lg leading-10 font-normal mb-1">Sign in with</p>
     <%= link(
       to: Routes.user_auth_path(@conn, :request, "github"),
-      data: [turbo: "false"],
       alt: "Login",
       "@click": "isLoading = true",
       ":class": "{ 'opacity-50 cursor-not-allowed': isLoading }",
