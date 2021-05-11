@@ -27,11 +27,6 @@ defmodule ExpenseJarWeb.ListController do
     end
   end
 
-  def show(conn, %{"id" => id}, _current_user) do
-    list = Finance.get_list!(id)
-    render(conn, "show.html", list: list)
-  end
-
   def edit(conn, %{"id" => id}, _current_user) do
     list = Finance.get_list!(id)
     changeset = Finance.change_list(list)
@@ -42,7 +37,7 @@ defmodule ExpenseJarWeb.ListController do
     list = Finance.get_list!(id)
 
     case Finance.update_list(list, list_params) do
-      {:ok, list} ->
+      {:ok, _list} ->
         conn
         |> put_flash(:info, "List updated successfully.")
         |> redirect(to: Routes.list_path(conn, :index))

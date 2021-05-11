@@ -1,20 +1,12 @@
-<h1>Show List</h1>
+<div class="container p-5 bg-gray-50 shadow rounded text-gray-900">
+  <div class="flex items-center mb-4">
+    <%= live_redirect to: Routes.list_path(@socket, :index), alt: "Go back", class: "button button--icon mr-1" do %>
+      <span class="iconify" data-icon="heroicons-outline:arrow-circle-left" data-inline="false"></span>
+    <% end %>
+    <h1 class="text-xl leading-none font-extrabold tracking-tight"><%= @list.name %></h1>
+  </div>
 
-<%= if @live_action in [:edit] do %>
-  <%= live_modal @socket, ExpenseJarWeb.ListLive.FormComponent,
-    id: @list.id,
-    title: @page_title,
-    action: @live_action,
-    list: @list,
-    return_to: Routes.list_show_path(@socket, :show, @list) %>
-<% end %>
+  <hr />
 
-<ul>
-  <li>
-    <strong>Name:</strong>
-    <%= @list.name %>
-  </li>
-</ul>
-
-<span><%= live_patch "Edit", to: Routes.list_show_path(@socket, :edit, @list), class: "button" %></span>
-<span><%= live_redirect "Back", to: Routes.list_index_path(@socket, :index) %></span>
+  <p class="mt-4">Subscriptions live!</p>
+</div>

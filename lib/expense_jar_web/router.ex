@@ -35,17 +35,8 @@ defmodule ExpenseJarWeb.Router do
   scope "/", ExpenseJarWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    get "/users/settings", UserSettingsController, :edit
-    put "/users/settings", UserSettingsController, :update
-    get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
-
-    resources "/lists", ListController
-    # live "/lists", ListLive.Index, :index
-    # live "/lists/new", ListLive.Index, :new
-    # live "/lists/:id/edit", ListLive.Index, :edit
-
-    # live "/lists/:id", ListLive.Show, :show
-    # live "/lists/:id/show/edit", ListLive.Show, :edit
+    resources "/lists", ListController, except: [:show]
+    live "/lists/:id", ListLive.Show, :show
 
     live "/lists/:list_id/subscriptions", SubscriptionLive.Index, :index
     live "/lists/:list_id/subscriptions/new", SubscriptionLive.Index, :new
