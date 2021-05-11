@@ -1,10 +1,9 @@
-
 <div class="container p-5 bg-gray-50 shadow rounded text-gray-900">
-
-<h1 class="text-xl leading-none font-extrabold tracking-tight mb-4">New List</h1>
-
-<%= render "form.html", Map.put(assigns, :action, Routes.list_path(@conn, :create)) %>
-
-<span><%= link "Back", to: Routes.list_path(@conn, :index), class: "button button--secondary" %></span>
-
+  <div class="flex items-center mb-4">
+    <%= link to: Routes.list_path(@conn, :index), alt: "Go back", class: "button button--icon mr-1" do %>
+      <span class="iconify" data-icon="heroicons-outline:arrow-circle-left" data-inline="false"></span>
+    <% end %>
+    <h1 class="text-xl leading-none font-extrabold tracking-tight">New List</h1>
+  </div>
+  <%= render "form.html", Map.put(assigns, :action, Routes.list_path(@conn, :create)) %>
 </div>

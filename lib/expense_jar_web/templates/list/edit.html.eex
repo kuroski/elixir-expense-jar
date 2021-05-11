@@ -1,5 +1,9 @@
-<h1>Edit List</h1>
-
-<%= render "form.html", Map.put(assigns, :action, Routes.list_path(@conn, :update, @list)) %>
-
-<span><%= link "Back", to: Routes.list_path(@conn, :index) %></span>
+<div class="container p-5 bg-gray-50 shadow rounded text-gray-900">
+  <div class="flex items-center mb-4">
+    <%= link to: Routes.list_path(@conn, :index), alt: "Go back", class: "button button--icon mr-1" do %>
+      <span class="iconify" data-icon="heroicons-outline:arrow-circle-left" data-inline="false"></span>
+    <% end %>
+    <h1 class="text-xl leading-none font-extrabold tracking-tight">Edit list <%= @list.name %></h1>
+  </div>
+  <%= render "form.html", Map.put(assigns, :action, Routes.list_path(@conn, :update, @list)) %>
+</div>

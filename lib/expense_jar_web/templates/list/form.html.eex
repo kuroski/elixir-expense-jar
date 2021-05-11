@@ -1,25 +1,13 @@
 <%= form_for @changeset, @action, fn f -> %>
 <%= if @changeset.action do %>
-  <div
-    class="alert alert-danger"
-    x-data="{ open: true }"
-    x-init="setTimeout(() => open = false, 3000)"
-    x-show="open"
-    @click="open = false"
-    x-transition:leave="transition ease-in"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0"
-  >
-    <span class="iconify" data-icon="heroicons-outline:shield-exclamation" data-inline="false"></span>
-    <p>Oops, something went wrong! Please check the errors below.</p>
-  </div>
+  <%= render ExpenseJarWeb.SharedView, "alert.html", %{type: "danger", title: "Oops, something went wrong! Please check the errors below."} %>
 <% end %>
 
 <%= label f, :name %>
 <%= text_input f, :name %>
 <%= error_tag f, :name %>
 
-<div class="mt-4">
+<div class="mt-4 text-right">
   <%= submit "Save", class: "button button--primary" %>
 </div>
 <% end %>

@@ -7,7 +7,10 @@
   <div class="flex flex-col divide-y">
     <%= for list <- @lists do %>
       <div class="py-2 flex items-center justify-between">
-        <%= list.name %>
+        <span>
+          <%= list.name %>
+          <%= subscription_count_str(list.subscription_count) %>
+        </span>
 
         <div>
           <%= link "Show", to: Routes.list_path(@conn, :show, list), class: "button button--link" %>
