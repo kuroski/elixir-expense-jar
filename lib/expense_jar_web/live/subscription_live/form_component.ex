@@ -30,7 +30,9 @@ defmodule ExpenseJarWeb.SubscriptionLive.FormComponent do
 
   defp save_subscription(socket, :edit, subscription_params) do
     case Finance.update_subscription(socket.assigns.subscription, subscription_params) do
-      {:ok, _subscription} ->
+      {:ok, subscription} ->
+        ExpenseJarWeb.Endpoint.broadcast_from(self(), ExpenseJarWeb.ListLive.Show.topic(subscription.list_id), "subscription:updated", subscription)
+
         {:noreply,
          socket
          |> put_flash(:info, "Subscription updated successfully")
@@ -43,7 +45,9 @@ defmodule ExpenseJarWeb.SubscriptionLive.FormComponent do
 
   defp save_subscription(socket, :new, subscription_params) do
     case Finance.create_subscription(%{user: socket.assigns.current_user, list: socket.assigns.list}, subscription_params) do
-      {:ok, _subscription} ->
+      {:ok, subscription} ->
+        ExpenseJarWeb.Endpoint.broadcast_from(self(), ExpenseJarWeb.ListLive.Show.topic(subscription.list_id), "subscription:created", subscription)
+
         {:noreply,
          socket
          |> put_flash(:info, "Subscription created successfully")

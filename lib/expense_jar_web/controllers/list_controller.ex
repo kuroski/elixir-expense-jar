@@ -20,7 +20,7 @@ defmodule ExpenseJarWeb.ListController do
       {:ok, list} ->
         conn
         |> put_flash(:info, "List created successfully.")
-        |> redirect(to: Routes.list_path(conn, :show, list))
+        |> redirect(to: Routes.list_show_path(conn, :show, list))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)

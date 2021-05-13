@@ -6,7 +6,9 @@
     <h1 class="text-xl leading-none font-extrabold tracking-tight"><%= @list.name %></h1>
   </div>
 
-  <hr />
+  <hr class="mb-2" />
 
-  <p class="mt-4">Subscriptions live!</p>
+  <%= for subscription <- @list.subscriptions do %>
+    <%= subscription.name %>
+  <% end %>
 </div>

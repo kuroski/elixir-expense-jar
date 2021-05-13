@@ -62,6 +62,28 @@ defmodule ExpenseJar.Finance do
   @doc """
   Gets a single list.
 
+  Raises `Ecto.NoResultsError` if the List does not exist.
+
+  ## Examples
+
+      iex> get_list!(123)
+      %List{}
+
+      iex> get_list!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_user_list!(%User{} = user, id),
+    do:
+      List
+      |> where_user_query(user)
+      # Example of anonymous function in pipe
+      |> (&(from(l in &1, join: s in assoc(l, :subscriptions), preload: [subscriptions: s]))).()
+      |> Repo.get!(id)
+
+  @doc """
+  Gets a single list.
+
   Returns nil if the List does not exist.
 
   ## Examples
