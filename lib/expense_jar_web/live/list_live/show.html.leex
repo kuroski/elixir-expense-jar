@@ -12,7 +12,19 @@
     No subscriptions created yet.
   <% end %>
 
-  <%= for subscription <- @list.subscriptions do %>
-    <%= subscription.name %>
-  <% end %>
+  <div class="grid grid-cols-1 mt-4 divide-y divide-blue-300 border border-blue-300 rounded shadow">
+    <%= for subscription <- @list.subscriptions do %>
+      <div class="flex justify-between p-4">
+        <div class="flex flex-col">
+          <span><%= subscription.name %></span>
+          <span class="text-sm"><%= subscription.price %></span>
+        </div>
+
+        <div class="flex flex-col">
+          <span>Every 1 month</span>
+          <span>In about 14 days</span>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
