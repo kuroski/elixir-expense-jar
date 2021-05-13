@@ -8,6 +8,10 @@
 
   <hr class="mb-2" />
 
+  <%= if Enum.empty?(@list.subscriptions) do %>
+    No subscriptions created yet.
+  <% end %>
+
   <%= for subscription <- @list.subscriptions do %>
     <%= subscription.name %>
   <% end %>

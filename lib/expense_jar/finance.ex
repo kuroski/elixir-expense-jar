@@ -78,7 +78,7 @@ defmodule ExpenseJar.Finance do
       List
       |> where_user_query(user)
       # Example of anonymous function in pipe
-      |> (&(from(l in &1, join: s in assoc(l, :subscriptions), preload: [subscriptions: s]))).()
+      |> (&(from(l in &1, left_join: s in assoc(l, :subscriptions), preload: [subscriptions: s]))).()
       |> Repo.get!(id)
 
   @doc """
