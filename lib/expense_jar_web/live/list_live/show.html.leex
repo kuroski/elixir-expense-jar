@@ -1,17 +1,27 @@
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, ExpenseJarWeb.SubscriptionLive.FormComponent,
+    id: @subscription.id || :new,
+    title: @page_title,
+    action: @live_action,
+    subscription: @subscription,
+    list: @list,
+    current_user: @current_user,
+    return_to: Routes.list_show_path(@socket, :show, @list.id) %>
+<% end %>
 <div class="container p-5 bg-gray-50 shadow rounded text-gray-900">
-  <div class="flex items-center mb-4">
-    <%= live_redirect to: Routes.list_path(@socket, :index), alt: "Go back", class: "button button--icon mr-1" do %>
-      <span class="iconify" data-icon="heroicons-outline:arrow-circle-left" data-inline="false"></span>
-    <% end %>
-    <h1 class="text-xl leading-none font-extrabold tracking-tight"><%= @list.name %></h1>
+  <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center">
+      <%= live_redirect to: Routes.list_path(@socket, :index), alt: "Go back", class: "button button--icon mr-1" do %>
+        <span class="iconify" data-icon="heroicons-outline:arrow-circle-left" data-inline="false"></span>
+      <% end %>
+      <h1 class="text-xl leading-none font-extrabold tracking-tight"><%= @list.name %></h1>
+    </div>
+    <%= live_patch "New Subscription", to: Routes.list_show_path(@socket, :new, @list.id), class: "button button--primary" %>
   </div>
-
   <hr class="mb-2" />
-
   <%= if Enum.empty?(@list.subscriptions) do %>
     No subscriptions created yet.
   <% end %>
-
   <div class="grid grid-cols-1 mt-4 divide-y divide-gray-300 border border-gray-100 rounded shadow">
     <%= for subscription <- @list.subscriptions do %>
       <div class="flex items-center justify-between px-4 py-2">
@@ -19,13 +29,14 @@
           <span class="font-medium" style="color: <%= subscription.color %>;"><%= subscription.name %></span>
           <span><%= subscription.price %></span>
         </div>
-
         <div class="flex items-center">
           <div class="flex flex-col font-light text-sm text-right mr-4">
             <span>Every 1 month</span>
             <span>In about 14 days</span>
           </div>
-
+          <%= live_patch to: Routes.list_show_path(@socket, :edit, @list.id, subscription), class: "button button--icon mr-2" do %>
+            <span class="iconify" data-icon="heroicons-outline:pencil-alt" data-inline="false"></span>
+          <% end %>
           <%= link to: "#", alt: "Delete", phx_click: "delete", phx_value_id: subscription.id, data: [confirm: "Are you sure?"], class: "button button--icon button--danger" do %>
             <span class="iconify" data-icon="heroicons-outline:trash" data-inline="false"></span>
           <% end %>

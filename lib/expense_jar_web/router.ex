@@ -36,14 +36,14 @@ defmodule ExpenseJarWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     resources "/lists", ListController, except: [:show]
-    live "/lists/:id", ListLive.Show, :show
+    live "/lists/:list_id", ListLive.Show, :show
 
-    live "/lists/:list_id/subscriptions", SubscriptionLive.Index, :index
-    live "/lists/:list_id/subscriptions/new", SubscriptionLive.Index, :new
-    live "/lists/:list_id/subscriptions/:id/edit", SubscriptionLive.Index, :edit
+    # live "/lists/:list_id/subscriptions", SubscriptionLive.Index, :index
+    live "/lists/:list_id/subscriptions/new", ListLive.Show, :new
+    live "/lists/:list_id/subscriptions/:subscription_id/edit", ListLive.Show, :edit
 
-    live "/lists/:list_id/subscriptions/:id", SubscriptionLive.Show, :show
-    live "/lists/:list_id/subscriptions/:id/show/edit", SubscriptionLive.Show, :edit
+    # live "/lists/:list_id/subscriptions/:id", SubscriptionLive.Show, :show
+    # live "/lists/:list_id/subscriptions/:id/show/edit", SubscriptionLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
