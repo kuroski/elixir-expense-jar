@@ -56,6 +56,10 @@ select {
   @apply p-0 text-blue-500 hover:text-blue-700 text-2xl;
 }
 
+.button--danger {
+  @apply text-red-500 hover:text-red-700;
+}
+
 /* This file is for your main application css. */
 /* @import "./phoenix.css"; */
 

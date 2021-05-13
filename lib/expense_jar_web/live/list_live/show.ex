@@ -18,6 +18,16 @@ defmodule ExpenseJarWeb.ListLive.Show do
   end
 
   @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    subscription = Finance.get_subscription!(id)
+    {:ok, _} = Finance.delete_subscription(subscription)
+
+    ExpenseJarWeb.Endpoint.broadcast_from(self(), topic(subscription.list_id), "subscription:deleted", subscription)
+
+    {:noreply, assign(socket, :list, Finance.get_user_list!(socket.assigns.current_user, id))}
+  end
+
+  @impl true
   def handle_info(
         %{topic: message_topic, event: "subscription:updated", payload: subscription},
         socket
@@ -39,6 +49,25 @@ defmodule ExpenseJarWeb.ListLive.Show do
   @impl true
   def handle_info(
         %{topic: message_topic, event: "subscription:created", payload: subscription},
+        socket
+      ) do
+    cond do
+      topic(subscription.list_id) == message_topic ->
+        {:noreply,
+         assign(
+           socket,
+           :list,
+           Finance.get_user_list!(socket.assigns.current_user, subscription.list_id)
+         )}
+
+      true ->
+        {:noreply, socket}
+    end
+  end
+
+  @impl true
+  def handle_info(
+        %{topic: message_topic, event: "subscription:deleted", payload: subscription},
         socket
       ) do
     cond do

@@ -12,17 +12,23 @@
     No subscriptions created yet.
   <% end %>
 
-  <div class="grid grid-cols-1 mt-4 divide-y divide-blue-300 border border-blue-300 rounded shadow">
+  <div class="grid grid-cols-1 mt-4 divide-y divide-gray-300 border border-gray-100 rounded shadow">
     <%= for subscription <- @list.subscriptions do %>
-      <div class="flex justify-between p-4">
+      <div class="flex items-center justify-between px-4 py-2">
         <div class="flex flex-col">
-          <span><%= subscription.name %></span>
-          <span class="text-sm"><%= subscription.price %></span>
+          <span class="font-medium" style="color: <%= subscription.color %>;"><%= subscription.name %></span>
+          <span><%= subscription.price %></span>
         </div>
 
-        <div class="flex flex-col">
-          <span>Every 1 month</span>
-          <span>In about 14 days</span>
+        <div class="flex items-center">
+          <div class="flex flex-col font-light text-sm text-right mr-4">
+            <span>Every 1 month</span>
+            <span>In about 14 days</span>
+          </div>
+
+          <%= link to: "#", alt: "Delete", phx_click: "delete", phx_value_id: subscription.id, data: [confirm: "Are you sure?"], class: "button button--icon button--danger" do %>
+            <span class="iconify" data-icon="heroicons-outline:trash" data-inline="false"></span>
+          <% end %>
         </div>
       </div>
     <% end %>
