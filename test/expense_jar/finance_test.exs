@@ -19,11 +19,6 @@ defmodule ExpenseJar.FinanceTest do
       list
     end
 
-    test "list_lists/0 returns all lists" do
-      list = list_fixture()
-      assert Finance.list_lists() == [list]
-    end
-
     test "get_list!/1 returns the list with given id" do
       list = list_fixture()
       assert Finance.get_list!(list.id) == list
@@ -63,9 +58,36 @@ defmodule ExpenseJar.FinanceTest do
   describe "subscriptions" do
     alias ExpenseJar.Finance.Subscription
 
-    @valid_attrs %{color: "some color", cycle_amount: 42, cycle_period: "some cycle_period", first_bill: ~D[2010-04-17], icon: "some icon", name: "some name", overview: "some overview", price: "120.5"}
-    @update_attrs %{color: "some updated color", cycle_amount: 43, cycle_period: "some updated cycle_period", first_bill: ~D[2011-05-18], icon: "some updated icon", name: "some updated name", overview: "some updated overview", price: "456.7"}
-    @invalid_attrs %{color: nil, cycle_amount: nil, cycle_period: nil, first_bill: nil, icon: nil, name: nil, overview: nil, price: nil}
+    @valid_attrs %{
+      color: "some color",
+      cycle_amount: 42,
+      cycle_period: "some cycle_period",
+      first_bill: ~D[2010-04-17],
+      icon: "some icon",
+      name: "some name",
+      overview: "some overview",
+      price: "120.5"
+    }
+    @update_attrs %{
+      color: "some updated color",
+      cycle_amount: 43,
+      cycle_period: "some updated cycle_period",
+      first_bill: ~D[2011-05-18],
+      icon: "some updated icon",
+      name: "some updated name",
+      overview: "some updated overview",
+      price: "456.7"
+    }
+    @invalid_attrs %{
+      color: nil,
+      cycle_amount: nil,
+      cycle_period: nil,
+      first_bill: nil,
+      icon: nil,
+      name: nil,
+      overview: nil,
+      price: nil
+    }
 
     def subscription_fixture(attrs \\ %{}) do
       {:ok, subscription} =
@@ -104,7 +126,10 @@ defmodule ExpenseJar.FinanceTest do
 
     test "update_subscription/2 with valid data updates the subscription" do
       subscription = subscription_fixture()
-      assert {:ok, %Subscription{} = subscription} = Finance.update_subscription(subscription, @update_attrs)
+
+      assert {:ok, %Subscription{} = subscription} =
+               Finance.update_subscription(subscription, @update_attrs)
+
       assert subscription.color == "some updated color"
       assert subscription.cycle_amount == 43
       assert subscription.cycle_period == "some updated cycle_period"
@@ -117,7 +142,10 @@ defmodule ExpenseJar.FinanceTest do
 
     test "update_subscription/2 with invalid data returns error changeset" do
       subscription = subscription_fixture()
-      assert {:error, %Ecto.Changeset{}} = Finance.update_subscription(subscription, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Finance.update_subscription(subscription, @invalid_attrs)
+
       assert subscription == Finance.get_subscription!(subscription.id)
     end
 

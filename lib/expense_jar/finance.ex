@@ -10,22 +10,6 @@ defmodule ExpenseJar.Finance do
   alias ExpenseJar.Finance.List
 
   @doc """
-  Returns the list of lists.
-
-  ## Examples
-
-      iex> list_lists()
-      [%List{}, ...]
-
-  """
-  def list_lists() do
-    subscription_count = get_subscriptions_count()
-
-    Repo.all(List)
-    |> Enum.map(&%{&1 | subscription_count: subscription_count[&1.id] || 0})
-  end
-
-  @doc """
   Returns the list of user lists.
 
   ## Examples
@@ -66,10 +50,10 @@ defmodule ExpenseJar.Finance do
 
   ## Examples
 
-      iex> get_list!(123)
+      iex> get_user_list!(%User{}, 123)
       %List{}
 
-      iex> get_list!(456)
+      iex> get_user_list!(%User{}, 456)
       ** (Ecto.NoResultsError)
 
   """
@@ -78,7 +62,7 @@ defmodule ExpenseJar.Finance do
       List
       |> where_user_query(user)
       # Example of anonymous function in pipe
-      |> (&(from(l in &1, left_join: s in assoc(l, :subscriptions), preload: [subscriptions: s]))).()
+      |> (&from(l in &1, left_join: s in assoc(l, :subscriptions), preload: [subscriptions: s])).()
       |> Repo.get!(id)
 
   @doc """
@@ -261,6 +245,11 @@ defmodule ExpenseJar.Finance do
   """
   def change_subscription(%Subscription{} = subscription, attrs \\ %{}) do
     Subscription.changeset(subscription, attrs)
+  end
+
+  def next_billing_for(%Subscription{} = subscription) do
+    subscription.first_bill
+    # |>
   end
 
   defp where_user_query(query, %User{id: user_id}) do
