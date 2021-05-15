@@ -19,23 +19,6 @@ defmodule ExpenseJarWeb.ListLive.Show do
      |> apply_action(socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"list_id" => _id, "subscription_id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Subscription")
-    |> assign(:subscription, Finance.get_subscription!(id))
-  end
-
-  defp apply_action(socket, :new, %{"list_id" => _id}) do
-    socket
-    |> assign(:page_title, "New Subscription")
-    |> assign(:subscription, %Subscription{})
-  end
-
-  defp apply_action(socket, :show, _params) do
-    socket
-    |> assign(:subscription, nil)
-  end
-
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     subscription = Finance.get_subscription!(id)
@@ -55,45 +38,36 @@ defmodule ExpenseJarWeb.ListLive.Show do
   def handle_info(
         %{topic: message_topic, event: "subscription:updated", payload: subscription},
         socket
-      ) do
-    cond do
-      topic(subscription.list_id) == message_topic ->
-        {:noreply,
-         assign(
-           socket,
-           :list,
-           Finance.get_user_list!(socket.assigns.current_user, subscription.list_id)
-         )}
-
-      true ->
-        {:noreply, socket}
-    end
-  end
+      ),
+      do: handle_subscription_event(%{topic: message_topic, payload: subscription}, socket)
 
   @impl true
   def handle_info(
         %{topic: message_topic, event: "subscription:created", payload: subscription},
         socket
-      ) do
-    cond do
-      topic(subscription.list_id) == message_topic ->
-        {:noreply,
-         assign(
-           socket,
-           :list,
-           Finance.get_user_list!(socket.assigns.current_user, subscription.list_id)
-         )}
-
-      true ->
-        {:noreply, socket}
-    end
-  end
+      ),
+      do: handle_subscription_event(%{topic: message_topic, payload: subscription}, socket)
 
   @impl true
   def handle_info(
         %{topic: message_topic, event: "subscription:deleted", payload: subscription},
         socket
-      ) do
+      ),
+      do: handle_subscription_event(%{topic: message_topic, payload: subscription}, socket)
+
+  def topic(list_id) do
+    "list:#{list_id}"
+  end
+
+  def cycle_str(period, amount) do
+    case amount do
+      0 -> "0 #{period}"
+      1 -> "1 #{period}"
+      amount -> "#{amount} #{period}s"
+    end
+  end
+
+  defp handle_subscription_event(%{topic: message_topic, payload: subscription}, socket) do
     cond do
       topic(subscription.list_id) == message_topic ->
         {:noreply,
@@ -108,7 +82,20 @@ defmodule ExpenseJarWeb.ListLive.Show do
     end
   end
 
-  def topic(list_id) do
-    "list:#{list_id}"
+  defp apply_action(socket, :edit, %{"list_id" => _id, "subscription_id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Subscription")
+    |> assign(:subscription, Finance.get_subscription!(id))
+  end
+
+  defp apply_action(socket, :new, %{"list_id" => _id}) do
+    socket
+    |> assign(:page_title, "New Subscription")
+    |> assign(:subscription, %Subscription{})
+  end
+
+  defp apply_action(socket, :show, _params) do
+    socket
+    |> assign(:subscription, nil)
   end
 end
