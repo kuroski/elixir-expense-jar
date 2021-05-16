@@ -247,9 +247,49 @@ defmodule ExpenseJar.Finance do
     Subscription.changeset(subscription, attrs)
   end
 
-  def next_billing_for(%Subscription{} = subscription) do
-    subscription.first_bill
-    # |>
+  def next_billing_for(
+        %Subscription{cycle_period: "day", first_bill: first_bill, cycle_amount: cycle_amount} =
+          _subscription
+      ) do
+    now = Timex.today()
+    difference_in_days = Timex.diff(now, first_bill, :days)
+    mod = rem(difference_in_days, cycle_amount)
+
+    is_next_bill_today =
+      mod == 0 and Timex.compare(Timex.set(now, day: first_bill.day), now, :day) == -1
+
+    cond do
+      is_next_bill_today ->
+        now
+
+      true ->
+        first_bill
+        |> Timex.add(Timex.Duration.from_days(difference_in_days + (cycle_amount - mod)))
+        |> (&if(Timex.compare(&1, now) == -1,
+              do: Timex.add(&1, Timex.Duration.from_days(cycle_amount)),
+              else: &1
+            )).()
+    end
+  end
+
+  def next_billing_for(%Subscription{cycle_period: "week"} = subscription) do
+    # IO.puts("======")
+    # IO.inspect(mod)
+    # IO.inspect(Date.new!(now.year, now.month, first_bill.day))
+    # IO.inspect(now)
+    # IO.inspect(subscription)
+    # IO.inspect(difference_in_days)
+    # IO.puts("======")
+
+    IO.inspect("WEEK payment")
+  end
+
+  def next_billing_for(%Subscription{cycle_period: "month"} = subscription) do
+    IO.inspect("MONTH payment")
+  end
+
+  def next_billing_for(%Subscription{cycle_period: "year"} = subscription) do
+    IO.inspect("YEAR payment")
   end
 
   defp where_user_query(query, %User{id: user_id}) do

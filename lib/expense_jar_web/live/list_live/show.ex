@@ -62,9 +62,13 @@ defmodule ExpenseJarWeb.ListLive.Show do
   def cycle_str(period, amount) do
     case amount do
       0 -> "0 #{period}"
-      1 -> "1 #{period}"
+      1 -> "#{period}"
       amount -> "#{amount} #{period}s"
     end
+  end
+
+  def next_bill(%Subscription{} = subscription) do
+    Finance.next_billing_for(subscription)
   end
 
   defp handle_subscription_event(%{topic: message_topic, payload: subscription}, socket) do

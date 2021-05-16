@@ -32,7 +32,7 @@
         <div class="flex items-center">
           <div class="flex flex-col font-light text-sm text-right mr-4">
             <span>Every <%= cycle_str(subscription.cycle_period, subscription.cycle_amount) %></span>
-            <span>In about 14 days</span>
+            <span>Nex bill: <%= next_bill(subscription) %></span>
           </div>
           <%= live_patch to: Routes.list_show_path(@socket, :edit, @list.id, subscription), class: "button button--icon mr-2" do %>
             <span class="iconify" data-icon="heroicons-outline:pencil-alt" data-inline="false"></span>
