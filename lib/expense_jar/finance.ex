@@ -247,41 +247,48 @@ defmodule ExpenseJar.Finance do
     Subscription.changeset(subscription, attrs)
   end
 
-  def next_billing_for(
-        %Subscription{cycle_period: "day", first_bill: first_bill, cycle_amount: cycle_amount} =
-          _subscription
-      ) do
+  def next_billing_for(%Subscription{
+        cycle_period: "day",
+        first_bill: first_bill,
+        cycle_amount: cycle_amount
+      }) do
     now = Timex.today()
     difference_in_days = Timex.diff(now, first_bill, :days)
     mod = rem(difference_in_days, cycle_amount)
 
-    is_next_bill_today =
-      mod == 0 and Timex.compare(Timex.set(now, day: first_bill.day), now, :day) == -1
+    is_next_bill_today = mod == 0 and difference_in_days >= 0
 
-    cond do
-      is_next_bill_today ->
-        now
-
-      true ->
+    if is_next_bill_today,
+      do: now,
+      else:
         first_bill
         |> Timex.add(Timex.Duration.from_days(difference_in_days + (cycle_amount - mod)))
         |> (&if(Timex.compare(&1, now) == -1,
               do: Timex.add(&1, Timex.Duration.from_days(cycle_amount)),
               else: &1
             )).()
-    end
   end
 
-  def next_billing_for(%Subscription{cycle_period: "week"} = subscription) do
-    # IO.puts("======")
-    # IO.inspect(mod)
-    # IO.inspect(Date.new!(now.year, now.month, first_bill.day))
-    # IO.inspect(now)
-    # IO.inspect(subscription)
-    # IO.inspect(difference_in_days)
-    # IO.puts("======")
+  def next_billing_for(%Subscription{
+        cycle_period: "week",
+        first_bill: first_bill,
+        cycle_amount: cycle_amount
+      }) do
+    now = Timex.today()
+    difference_in_weeks = Timex.diff(now, first_bill, :weeks)
+    mod = rem(difference_in_weeks, cycle_amount)
 
-    IO.inspect("WEEK payment")
+    is_next_bill_today = mod == 0 and Timex.diff(now, first_bill) >= 0
+
+    if is_next_bill_today,
+      do: now,
+      else:
+        first_bill
+        |> Timex.add(Timex.Duration.from_weeks(difference_in_weeks + (cycle_amount - mod)))
+        |> (&if(Timex.compare(&1, now) == -1,
+              do: Timex.add(&1, Timex.Duration.from_weeks(cycle_amount)),
+              else: &1
+            )).()
   end
 
   def next_billing_for(%Subscription{cycle_period: "month"} = subscription) do
