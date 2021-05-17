@@ -68,7 +68,10 @@ defmodule ExpenseJarWeb.ListLive.Show do
   end
 
   def next_bill(%Subscription{} = subscription) do
-    Finance.next_billing_for(subscription)
+    next_billing = Finance.next_billing_for(subscription)
+    {:ok, relative_str} = next_billing |> Timex.format("{relative}", :relative)
+
+    [next_billing, relative_str]
   end
 
   defp handle_subscription_event(%{topic: message_topic, payload: subscription}, socket) do

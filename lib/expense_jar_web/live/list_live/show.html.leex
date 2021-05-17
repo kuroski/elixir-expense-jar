@@ -36,7 +36,9 @@
         <div class="flex items-center">
           <div class="flex flex-col text-sm text-right mr-4">
             <span class="font-medium">Nex bill</span>
-            <span class="font-light"><%= next_bill(subscription) %></span>
+            <% [bill_date, bill_str] = next_bill(subscription) %>
+            <span class="font-light"><%= bill_str %></span>
+            <span class="font-thin text-xs">(<%= bill_date %>)</span>
           </div>
           <%= live_patch to: Routes.list_show_path(@socket, :edit, @list.id, subscription), class: "button button--icon mr-2" do %>
             <span class="iconify" data-icon="heroicons-outline:pencil-alt" data-inline="false"></span>
