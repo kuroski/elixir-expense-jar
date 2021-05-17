@@ -272,36 +272,17 @@ defmodule ExpenseJar.Finance do
         now
       ) do
     difference_in_weeks = Timex.diff(now, first_bill, :weeks)
+    difference_in_days = Timex.diff(now, first_bill, :days)
     mod = rem(difference_in_weeks, cycle_amount)
 
-    next_bill = Timex.set(first_bill, year: now.year, month: now.month)
-    has_next_bill_charged = mod == 0 and Timex.diff(now, next_bill, :days) == 0
+    is_same_day =
+      mod == 0 and (difference_in_days == 7 * cycle_amount or now.day == first_bill.day)
 
-    if has_next_bill_charged,
-      do: next_bill,
+    if is_same_day,
+      do: now,
       else:
         first_bill
         |> Timex.shift(weeks: difference_in_weeks + (cycle_amount - mod))
-        |> (&if(Timex.compare(&1, now) == -1,
-              do: Timex.add(&1, Timex.Duration.from_days(cycle_amount * 30)),
-              else: &1
-            )).()
-
-    # now = Timex.today()
-    # difference_in_weeks = Timex.diff(now, first_bill, :weeks)
-    # mod = rem(difference_in_weeks, cycle_amount)
-
-    # is_next_bill_today = mod == 0 and Timex.diff(now, first_bill) >= 0
-
-    # if is_next_bill_today,
-    #   do: now,
-    #   else:
-    #     first_bill
-    #     |> Timex.add(Timex.Duration.from_weeks(difference_in_weeks + (cycle_amount - mod)))
-    #     |> (&if(Timex.compare(&1, now) == -1,
-    #           do: Timex.add(&1, Timex.Duration.from_weeks(cycle_amount)),
-    #           else: &1
-    #         )).()
   end
 
   def next_billing_for(

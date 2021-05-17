@@ -202,6 +202,47 @@ defmodule ExpenseJar.FinanceTest do
                ~D[2021-01-11]
     end
 
+    test "weekly next_billing_for/2 returns next date for subscription" do
+      weekly_subscription = @valid_attrs
+
+      weekly_subscription = %{
+        weekly_subscription
+        | cycle_period: "week",
+          cycle_amount: 1,
+          first_bill: ~D[2021-01-01]
+      }
+
+      assert Finance.next_billing_for(weekly_subscription, ~D[2021-01-08]) == ~D[2021-01-08]
+      assert Finance.next_billing_for(weekly_subscription, ~D[2021-01-05]) == ~D[2021-01-08]
+      assert Finance.next_billing_for(weekly_subscription, ~D[2021-01-10]) == ~D[2021-01-15]
+
+      every_two_weeks_subscription = %{
+        weekly_subscription
+        | cycle_period: "week",
+          cycle_amount: 2,
+          first_bill: ~D[2021-01-01]
+      }
+
+      assert Finance.next_billing_for(every_two_weeks_subscription, ~D[2021-01-15]) ==
+               ~D[2021-01-15]
+
+      assert Finance.next_billing_for(every_two_weeks_subscription, ~D[2021-01-10]) ==
+               ~D[2021-01-15]
+
+      assert Finance.next_billing_for(every_two_weeks_subscription, ~D[2021-01-18]) ==
+               ~D[2021-01-29]
+
+      same_week_subscription = %{
+        weekly_subscription
+        | cycle_period: "week",
+          cycle_amount: 1,
+          first_bill: ~D[2021-01-10]
+      }
+
+      assert Finance.next_billing_for(same_week_subscription, ~D[2021-01-10]) ==
+               ~D[2021-01-10]
+    end
+
     test "monthly next_billing_for/2 returns next date for subscription" do
       monthly_subscription = @valid_attrs
 
@@ -212,14 +253,9 @@ defmodule ExpenseJar.FinanceTest do
           first_bill: ~D[2020-01-10]
       }
 
-      assert Finance.next_billing_for(monthly_subscription, ~D[2021-01-10]) == ~D[2021-01-10],
-             "the payment should happen in the same day"
-
-      assert Finance.next_billing_for(monthly_subscription, ~D[2021-01-05]) == ~D[2021-01-10],
-             "due date not reached"
-
-      assert Finance.next_billing_for(monthly_subscription, ~D[2021-01-15]) == ~D[2021-02-10],
-             "payment was already done"
+      assert Finance.next_billing_for(monthly_subscription, ~D[2021-01-10]) == ~D[2021-01-10]
+      assert Finance.next_billing_for(monthly_subscription, ~D[2021-01-05]) == ~D[2021-01-10]
+      assert Finance.next_billing_for(monthly_subscription, ~D[2021-01-15]) == ~D[2021-02-10]
 
       every_two_months_subscription = %{
         monthly_subscription
@@ -229,16 +265,13 @@ defmodule ExpenseJar.FinanceTest do
       }
 
       assert Finance.next_billing_for(every_two_months_subscription, ~D[2021-01-10]) ==
-               ~D[2021-01-10],
-             "the payment should happen in the same day"
+               ~D[2021-01-10]
 
       assert Finance.next_billing_for(every_two_months_subscription, ~D[2021-01-05]) ==
-               ~D[2021-01-10],
-             "due date not reached"
+               ~D[2021-01-10]
 
       assert Finance.next_billing_for(every_two_months_subscription, ~D[2021-01-15]) ==
-               ~D[2021-03-10],
-             "payment was already done"
+               ~D[2021-03-10]
 
       same_month_subscription = %{
         monthly_subscription
