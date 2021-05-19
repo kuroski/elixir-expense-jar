@@ -67,6 +67,8 @@ defmodule ExpenseJarWeb.ListLive.Show do
     end
   end
 
+  def price_str(price), do: Number.Currency.number_to_currency(price)
+
   def next_bill(%Subscription{} = subscription) do
     next_billing = Finance.next_billing_for(subscription)
     {:ok, relative_str} = next_billing |> Timex.format("{relative}", :relative)

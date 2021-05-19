@@ -30,8 +30,7 @@
             <span class="font-medium"><%= subscription.name %></span>
             <span class="text-xs ml-1 opacity-70">(Every <%= cycle_str(subscription.cycle_period, subscription.cycle_amount) %>)</span>
           </div>
-          <span><%= subscription.price %></span>
-          <span><%= subscription.first_bill %></span>
+          <span><%= price_str(subscription.price) %></span>
         </div>
         <div class="flex items-center">
           <div class="flex flex-col text-sm text-right mr-4">

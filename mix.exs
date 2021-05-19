@@ -52,7 +52,8 @@ defmodule ExpenseJar.MixProject do
       {:ueberauth_github, "~> 0.7"},
       {:phx_gen_auth, "~> 0.7", only: [:dev], runtime: false},
       {:timex, "~> 3.0"},
-      {:mix_test_watch, "~> 1.0", only: :dev, runtime: false}
+      {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
+      {:number, "~> 1.0.1"}
     ]
   end
 
