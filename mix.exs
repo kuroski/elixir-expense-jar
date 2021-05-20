@@ -53,7 +53,7 @@ defmodule ExpenseJar.MixProject do
       {:phx_gen_auth, "~> 0.7", only: [:dev], runtime: false},
       {:timex, "~> 3.0"},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
-      {:number, "~> 1.0.1"}
+      {:money, "~> 1.8"}
     ]
   end
 

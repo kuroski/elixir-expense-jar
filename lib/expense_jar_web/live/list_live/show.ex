@@ -67,7 +67,7 @@ defmodule ExpenseJarWeb.ListLive.Show do
     end
   end
 
-  def price_str(price), do: Number.Currency.number_to_currency(price)
+  def price_str(price), do: Money.to_string(price, symbol: true)
 
   def next_bill(%Subscription{} = subscription) do
     next_billing = Finance.next_billing_for(subscription)

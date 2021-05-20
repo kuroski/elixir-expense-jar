@@ -9,7 +9,7 @@ defmodule ExpenseJar.Repo.Migrations.CreateSubscriptions do
       add :first_bill, :date
       add :icon, :string
       add :name, :string
-      add :price, :decimal
+      add :price, :money_with_currency
       add :overview, :string
       add :list_id, references(:lists, on_delete: :nothing)
       add :created_by, references(:users, on_delete: :nothing)
