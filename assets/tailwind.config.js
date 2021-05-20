@@ -9,7 +9,7 @@ module.exports = {
       "./js/**/*.js",
     ],
     options: {
-      whitelist: [/phx/, /nprogress/, /input/, /type='text'/, /type='radio'/, /type='search'/],
+      safelist: [/phx/, /nprogress/, /input/, /type='text'/, /type='radio'/, /type='search'/, /form-input/],
     },
   },
   darkMode: "media", // or 'media' or 'class'
