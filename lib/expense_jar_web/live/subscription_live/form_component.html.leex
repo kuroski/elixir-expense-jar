@@ -12,31 +12,31 @@
   <%= error_tag f, :color %>
 
   <%= label f, :cycle_amount %>
-  <%= number_input f, :cycle_amount %>
+  <%= number_input f, :cycle_amount, class: "form-input" %>
   <%= error_tag f, :cycle_amount %>
 
   <%= label f, :cycle_period %>
-  <%= select f, :cycle_period, @periods %>
+  <%= select f, :cycle_period, @periods, class: "form-select" %>
   <%= error_tag f, :cycle_period %>
 
   <%= label f, :first_bill %>
-  <%= date_select f, :first_bill %>
+  <%= date_select f, :first_bill, class: "form-select" %>
   <%= error_tag f, :first_bill %>
 
   <%= label f, :icon %>
-  <%= text_input f, :icon %>
+  <%= text_input f, :icon, class: "form-input" %>
   <%= error_tag f, :icon %>
 
   <%= label f, :name %>
-  <%= text_input f, :name %>
+  <%= text_input f, :name, class: "form-input" %>
   <%= error_tag f, :name %>
 
   <%= label f, :price %>
-  <%= text_input f, :price %>
+  <%= text_input f, :price, class: "form-input" %>
   <%= error_tag f, :price %>
 
   <%= label f, :overview %>
-  <%= text_input f, :overview %>
+  <%= text_input f, :overview, class: "form-input" %>
   <%= error_tag f, :overview %>
 
   <%= submit "Save", phx_disable_with: "Saving...", class: "button button--primary" %>

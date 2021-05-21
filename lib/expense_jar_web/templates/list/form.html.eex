@@ -4,7 +4,7 @@
 <% end %>
 
 <%= label f, :name %>
-<%= text_input f, :name %>
+<%= text_input f, :name, class: "form-input" %>
 <%= error_tag f, :name %>
 
 <div class="mt-4 text-right">
