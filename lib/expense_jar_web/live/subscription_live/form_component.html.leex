@@ -1,43 +1,106 @@
 <h2><%= @title %></h2>
-
 <%= f = form_for @changeset, "#",
   id: "subscription-form",
-  class: "text-black",
+  class: "text-black flex flex-col w-full",
   phx_target: @myself,
   phx_change: "validate",
-  phx_submit: "save" %>
+  phx_submit: "save",
+  "x-data": "(() => ({
+  		isOpen: false,
+  		colors: ['#2196F3', '#009688', '#9C27B0', '#FFEB3B', '#afbbc9', '#4CAF50', '#2d3748', '#f56565', '#ed64a6'],
+  		colorSelected: '#2196F3'
+  	}))()",
+  "x-cloak": true
+%>
+<div class="flex items-center">
 
-  <%= label f, :color %>
-  <%= color_input f, :color %>
-  <%= error_tag f, :color %>
 
-  <%= label f, :cycle_amount %>
-  <%= number_input f, :cycle_amount, class: "form-input" %>
-  <%= error_tag f, :cycle_amount %>
+  <div class="relative mr-4">
+    <%= hidden_input f, :color, readonly: true, "x-model": "colorSelected" %>
+    <button
+      type="button"
+      @click="isOpen = !isOpen"
+      class="rounded-full focus:outline-none focus:shadow-outline inline-flex p-2 text-lg shadow"
+      :style="`background: ${colorSelected}; color: white`"
+		>
+      <span class="iconify" data-icon="heroicons-outline:color-swatch" data-inline="false"></span>
+    </button>
+    <div
+      x-show="isOpen"
+      @click.away="isOpen = false"
+      x-transition:enter="transition ease-out duration-100 transform"
+      x-transition:enter-start="opacity-0 scale-95"
+      x-transition:enter-end="opacity-100 scale-100"
+      x-transition:leave="transition ease-in duration-75 transform"
+      x-transition:leave-start="opacity-100 scale-100"
+      x-transition:leave-end="opacity-0 scale-95"
+      class="origin-top-left absolute left-0 mt-2 w-40 rounded-md shadow-lg"
+    >
+      <div class="rounded-md bg-white shadow-xs px-4 py-3">
+        <div class="flex flex-wrap -mx-2">
+          <template x-for="(color, index) in colors" :key="index">
+            <div class="px-2">
+              <template x-if="colorSelected === color">
+                <div
+                  class="w-8 h-8 inline-flex rounded-full cursor-pointer border-4 shadow"
+									:style="`background: ${color};`"
+								></div>
+              </template>
+              <template x-if="colorSelected != color">
+                <div
+									@click="colorSelected = color"
+                  @keydown.enter="colorSelected = color"
+                  role="checkbox"
+                  tabindex="0"
+                  :aria-checked="colorSelected"
+                  class="w-8 h-8 inline-flex rounded-full cursor-pointer border-4 border-white focus:outline-none focus:shadow-outline"
+                  :style="`background: ${color};`"
+                ></div>
+              </template>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <%= label f, :cycle_period %>
-  <%= select f, :cycle_period, @periods, class: "form-select" %>
-  <%= error_tag f, :cycle_period %>
-
-  <%= label f, :first_bill %>
-  <%= date_select f, :first_bill, class: "form-select" %>
-  <%= error_tag f, :first_bill %>
-
+  <div class="flex-1">
+    <%= label f, :name %>
+    <%= text_input f, :name, class: "form-input" %>
+    <%= error_tag f, :name %>
+  </div>
+</div>
+<div>
   <%= label f, :icon %>
   <%= text_input f, :icon, class: "form-input" %>
   <%= error_tag f, :icon %>
-
-  <%= label f, :name %>
-  <%= text_input f, :name, class: "form-input" %>
-  <%= error_tag f, :name %>
-
+</div>
+<div>
+  <%= label f, :cycle_period %>
+  <%= select f, :cycle_period, @periods, class: "form-select" %>
+  <%= error_tag f, :cycle_period %>
+</div>
+<div>
+  <%= label f, :cycle_amount %>
+  <%= number_input f, :cycle_amount, class: "form-input" %>
+  <%= error_tag f, :cycle_amount %>
+</div>
+<div>
   <%= label f, :price %>
   <%= text_input f, :price, class: "form-input" %>
   <%= error_tag f, :price %>
-
+</div>
+<div class="col-span-2">
+  <%= label f, :first_bill %>
+  <div class="flex items-center">
+    <%= date_select f, :first_bill, class: "form-select" %>
+  </div>
+  <%= error_tag f, :first_bill %>
+</div>
+<div>
   <%= label f, :overview %>
   <%= text_input f, :overview, class: "form-input" %>
   <%= error_tag f, :overview %>
-
-  <%= submit "Save", phx_disable_with: "Saving...", class: "button button--primary" %>
+</div>
+<%= submit "Save", phx_disable_with: "Saving...", class: "button button--primary col-span-full" %>
 </form>
